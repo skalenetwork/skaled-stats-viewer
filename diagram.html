@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>How to Start with dhtmlxDiagram</title>
+  <script src="https://docs.dhtmlx.com/diagram/samples/codebase/diagram.js"></script>   
+ 
+  <link href="https://docs.dhtmlx.com/diagram/samples/codebase/diagram.css" rel="stylesheet">  
+</head>
+<body>
+    <div id="diagram_container"></div>
+ 
+    <script>
+
+     // creating an organization chart
+     var myDiagram = new dhx.Diagram("diagram_container");
+     
+	var data = [
+		{ id: "recv_rpc", x: 0,       y: 0, text: "Received\nJSON-RPC", type: "circle" },
+		{ id: "rejected_rpc", x: 150, y: 50, text: "Rejected", type: "circle" },
+		{from: "recv_rpc", to: "rejected_rpc", forwardArrow: true, fromSide: "bottom", toSide: "left"},
+
+		
+		{ id: "recv_zmq",     x: 300,       y: 0, text: "Received\nZMQ", type: "circle" },
+		{ id: "rejected_zmq", x: 450,       y: 50, text: "Rejected", type: "circle" },		
+		{from: "recv_zmq", to: "rejected_zmq", forwardArrow: true, fromSide: "bottom", toSide: "left"},		
+
+		{from: "recv_rpc", to: "queued", forwardArrow: true},
+		{ id: "queued",         x: 0,   y: 150, text: "Queued", type: "circle" },
+		{ id: "already_zmq",  x: 150,   y: 150, text: "Already have\nfrom ZMQ", type: "circle" },				
+		{from: "queued", to: "already_zmq", forwardArrow: true},
+
+		{from: "queued", to: "bcasted", forwardArrow: true},				
+		{ id: "bcasted",      x: 0,   y: 300, text: "Broadcasted", type: "circle" },
+		{ id: "now_invalid",  x: 150, y: 350, text: "Dropped\nnow invalid", type: "circle" },		
+		{from: "bcasted", to: "now_invalid", forwardArrow: true, fromSide: "bottom", toSide: "left"},		
+
+		{from: "bcasted", to: "cache", forwardArrow: true},				
+		{ id: "cache",        x: 0,   y: 450, text: "Cache", type: "circle" },
+		
+		{from: "recv_zmq", to: "bcasted", forwardArrow: true, toSide: "right"},
+		
+		{id: "cnt_brodcast_already_have", x: 120, y: 190, type: "text", text: "000"},
+		{id: "cnt_brodcast", x: 30, y: 270, type: "text", text: "000"},
+		{id: "cnt_drop_bad", x: 120, y: 395, type: "text", text: "000"},
+		{id: "cnt_sent_txn", x: 30, y: 420, type: "text", text: "000"}		
+	];
+
+	myDiagram.data.parse(data);
+
+/*	
+	setInterval(function(){
+		data[1].y += 10;
+		data[1].text = data[1].y.toString();
+		myDiagram.data.parse(data);
+	}, 1000);
+*/
+    </script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500);/*                                              Table of Content
+
+
+
+        1. Material skin design and style elements
+
+        2. Pivot MicroVars
+
+        3. Diagram Editor MicroVars
+
+        4. Property Sheet MicroVars
+
+        5. Tree MicroVars
+
+        6. Calendar MicroVars
+
+        7. Menu MicroVars
+
+
+*/
+
+/*============================================================================================
+                            1. Material Skin Design & Style Elements
+==============================================================================================*/
+
+/*============================================================================================
+                                    2. Pivot MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                3. Diagram Editor MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                    4. Property Sheet MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                    5. Tree MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                    6. Calendar MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                    7. Vault MicroVars
+==============================================================================================*/
+
+/*============================================================================================
+                                    7. Menu MicroVars
+==============================================================================================*/
+
+.dhx_btn {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  border-radius: 2px;
+  font-family: "Roboto", Arial, Tahoma, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.dhx_btn svg {
+  margin-right: 8px;
+  margin-left: -4px;
+  fill: white;
+}
+
+.dhx_btn span {
+  line-height: 24px;
+  position: relative;
+  top: 1px;
+}
+
+.dhx_btn:hover {
+  color: #fff;
+  background: #2795e0;
+  cursor: pointer;
+}
+
+.dhx_btn:active {
+  background: #2795e0;
+}
+
+.dhx_btn .action {
+  background: #2795e0;
+}
+
+.dhx_btn--active {
+  background: #3DA0E3;
+  color: #fff;
+}
+
+.dhx_btn--active:hover {
+  color: #fff;
+  background: #2795e0;
+  cursor: pointer;
+}
+
+.dhx_btn--flat {
+  border: none;
+  background: transparent;
+  color: #1b79b9;
+}
+
+.dhx_btn--flat:hover {
+  background: rgba(61, 160, 227, 0.2);
+  color: #1b79b9;
+  cursor: pointer;
+}
+
+.dhx_widget {
+  font-family: "Roboto", Arial, Tahoma, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 400;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dhx_widget input,
+.dhx_widget button,
+.dhx_widget textarea,
+.dhx_widget select {
+  font-family: "Roboto", Arial, Tahoma, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 400;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dhx_widget .fas,
+.dhx_widget .mdi,
+.dhx_widget .dxi {
+  font-size: 24px;
+}
+
+.dhx_noselect {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.dhx_popup_toolbar {
+  position: absolute;
+  z-index: 50;
+  animation: appear .2s ease-in-out forwards;
+  background: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  background-color: #FFF;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
+.dhx_popup_toolbar.hide {
+  animation: disappear .2s ease-in-out forwards;
+}
+
+.dhx_item_toolbar {
+  display: flex;
+  height: 48px;
+  padding: 0 8px;
+  align-items: center;
+}
+
+.dhx_item_toolbar .dhx_icon {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  justify-content: center;
+  align-items: center;
+}
+
+.dhx_item_toolbar .dhx_icon:hover {
+  background-color: #F7F7F7;
+}
+
+.dhx_item_toolbar .dhx_icon:hover svg {
+  fill: #3DA0E3;
+}
+
+.dhx_item_toolbar .dhx_icon:hover.dhx_remove svg {
+  fill: #E10000;
+}
+
+.dhx_item_toolbar .dhx_icon.dhx_active svg {
+  fill: #3DA0E3;
+}
+
+.dhx_item_toolbar .dhx_icon svg {
+  fill: #8792a7;
+}
+
+.dhx_item_toolbar .dhx_remove:hover {
+  background-color: white;
+}
+
+@keyframes appear {
+  0% {
+    transform: translateY(30%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(30%);
+    opacity: 0;
+  }
+}
+
+.dhx_diagram {
+  width: 100%;
+  height: 100%;
+  background: #F7F7F7;
+  overflow: auto;
+  font-size-adjust: 100%;
+  text-align: center;
+}
+
+.dhx_diagram .dhx_wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.dhx_diagram_connector {
+  stroke: #cccccc;
+  fill: none;
+}
+
+.dhx_diagram_item .dhx_hide_icon {
+  display: none;
+  user-select: none;
+  shape-rendering: auto;
+}
+
+.dhx_diagram_item .dhx_expand_icon {
+  user-select: none;
+  shape-rendering: auto;
+  cursor: pointer;
+}
+
+.dhx_diagram_item:hover .dhx_hide_icon {
+  display: block;
+  animation: hideWithDelay .5s ease-out;
+  cursor: pointer;
+}
+
+.dhx_diagram_item .dhx_item_shape {
+  fill: #fff;
+}
+
+.dhx_diagram_item .shape_content {
+  display: table-cell;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.dhx_diagram_item.dhx_selected .dhx_item_shape {
+  fill: #fff;
+}
+
+.dhx_diagram_item.dhx_diagram_image .shape_content {
+  display: block;
+  overflow: hidden;
+  text-align: left;
+}
+
+.dhx_diagram_item.dhx_diagram_image .dhx_content_img {
+  float: left;
+  width: 60px;
+  height: 60px;
+  margin: 16px 12px 0 8px;
+  border-radius: 50%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: #F7F7F7;
+}
+
+.dhx_diagram_item.dhx_diagram_image .dhx_content_text {
+  margin-top: 5px;
+  white-space: nowrap;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  line-height: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dhx_diagram_item.dhx_diagram_image .dhx_content_text-alone {
+  margin-top: 12px;
+}
+
+.dhx_diagram_item.dhx_diagram_image .dhx_content_title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 25px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.dhx_diagram_item.dhx_diagram_svg-card .dhx_content_text {
+  fill: rgba(0, 0, 0, 0.7);
+}
+
+.dhx_diagram_item.dhx_diagram_svg-card .dhx_content_title {
+  font-weight: 500;
+  text-transform: uppercase;
+  fill: rgba(0, 0, 0, 0.4);
+}
+
+.dhx_free_diagram {
+  background: #FFF;
+}
+
+.dhx_free_diagram .dhx_diagram_connector {
+  stroke: #2196F3;
+  stroke-width: 2px;
+}
+
+.dhx_free_diagram .dhx_diagram_extra_lines {
+  stroke-width: 2px;
+}
+
+.dhx_free_diagram .dhx_diagram_item text {
+  fill: rgba(0, 0, 0, 0.7);
+}
+
+.dhx_free_diagram .dhx_item_text {
+  fill: rgba(0, 0, 0, 0.7);
+}
+
+@keyframes hideWithDelay {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}

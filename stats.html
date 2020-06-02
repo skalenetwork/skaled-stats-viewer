@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html lang="us">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SKALE - Stats</title>
+
+    <link href="jquery-ui-1.12.1/jquery-ui.css" type="text/css" rel="stylesheet">
+    <script src="jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script src="jquery-ui-1.12.1/jquery-ui.js"></script>
+
+    <link href="jsgrid-1.5.3/dist/jsgrid.min.css" type="text/css" rel="stylesheet">
+    <link href="jsgrid-1.5.3/dist/jsgrid-theme.min.css" type="text/css" rel="stylesheet">
+    <script src="jsgrid-1.5.3/dist/jsgrid.min.js"></script>
+    <!--link href="jsgrid-1.5.3/css/jsgrid.css" type="text/css" rel="stylesheet">
+    <link href="jsgrid-1.5.3/css/theme.css" type="text/css" rel="stylesheet" -->
+    <!-- see http://js-grid.com/demos/ -->
+
+    <link rel="stylesheet" href="webui-popover-master/dist/jquery.webui-popover.min.css" type="text/css" rel="stylesheet">
+    <script src="webui-popover-master/dist/jquery.webui-popover.min.js"></script>
+    <!-- see https://github.com/sandywalker/webui-popover and http://sandywalker.github.io/webui-popover/demo/# -->
+
+    <script src="diagram.js"></script>
+    <link href="diagram.css" rel="stylesheet">
+
+    <script src="store.js-master/dist/store.everything.min.js"></script>
+    <!-- see https://github.com/marcuswestin/store.js/ -->
+
+    <!-- script src="web3.min.js"></script -->
+
+    <!-- script src="js/md5.js"></script -->
+
+    <script src="jquery.sparkline.js"></script>
+
+    <script src="vis-4.21.0/dist/vis.js"></script>
+    <link href="vis-4.21.0/dist/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
+  
+    <link rel="stylesheet" href="stats.css" type="text/css" rel="stylesheet">
+    <script src="stats.js"></script>
+
+</head>
+
+<body>
+
+    <table class="top_table">
+        <tbody class="top_table">
+            <tr class="top_table">
+                <td class="top_table" style="width: 12em;">
+                    <h1>&nbsp;SKALE - Stats</h1>
+                </td>
+                <td class="top_table" style="width: 22em;">
+                    <form onsubmit="event.preventDefault(); return true;">
+                        <input id="idServerInput" type="text" placeholder="Server URL" class="clearable" autocomplete="off"></input>
+                        <button id="idServerButton" class="blue" type="submit" onclick="javascript: do_connect( '' + $('#idServerInput').val() );">&nbsp;&nbsp;Connect&nbsp;&nbsp;</button>
+                    </form>
+                    <div id="idServerHistoryPopover" class="webui-popover-content white">
+                        <h4 class="white">
+                            <nobr>Known Servers:</nobr>
+                        </h4>
+                        <br />
+                        <nobr><a class="white" href="javascript: do_connect('http://127.0.0.1:15000');">Local S-Chain<span class="helper-comment">(skaled, HTTP)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('https://127.0.0.1:15010');">Local S-Chain<span class="helper-comment">(skaled, HTTPS)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('ws://127.0.0.1:15020');">Local S-Chain<span class="helper-comment">(skaled, WS)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('wss://127.0.0.1:15030');">Local S-Chain<span class="helper-comment">(skaled, WSS)</span></a></nobr><br />
+                        <div id="idServerRecants" class="white">
+                        </div>
+                    </div>
+                </td>
+                <td class="top_table" style="width: 9em;">
+                    <form onsubmit="event.preventDefault(); return true;">
+                        <select id="idViewSelect" class="clearable" onchange="onChangeViewSelect()">
+                            <option value="1" selected>System Information</option>
+                            <option value="2">Raw General Statistics as JSON</option>
+                            <option value="3">RPC / Summary Performance</option>
+                            <option value="4">RPC / All Subsystems</option>
+                            <option value="5">RPC / HTTP</option>
+                            <option value="6">RPC / HTTPS</option>
+                            <option value="7">RPC / WS</option>
+                            <option value="8">RPC / WSS</option>
+                            <option value="9">Transaction State Diagram</option>
+                            <option value="10">Performance Timeline Tracker</option>
+                        </select>
+                    </form>
+                </td>
+                <td class="top_table" style="width: 9em;">
+                    <form onsubmit="event.preventDefault(); return true;">
+                        <select id="idUpdateInterval" class="clearable" onchange="onChangeUpdateInterval()">
+                            <option value="100" selected>0.10 sec</option>
+                            <option value="250" selected>0.25 sec</option>
+                            <option value="500" selected>0.5 sec</option>
+                            <option value="1000">1 sec</option>
+                            <option value="1500">1.5 sec</option>
+                            <option value="2000">2 sec</option>
+                            <option value="3000">3 sec</option>
+                            <option value="4000">4 sec</option>
+                            <option value="5000">5 sec</option>
+                            <option value="10000">10 sec</option>
+                            <option value="20000">20 sec</option>
+                            <option value="30000">30 sec</option>
+                            <option value="60000">1 min</option>
+                        </select>
+                    </form>
+                </td>
+                <td class="top_table">
+                    Latest block#: <span id="idLatestBlockNumber">N/A</span> &nbsp;&nbsp;&nbsp;&nbsp; <span id="idBlocksListExternalPager"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="idContentContainer">
+        <div id="idContentPage1" class="performance_container">
+            <table class="performance">
+                <tr class="performance">
+                    <td class="performance">
+                        <p class="performance">CPU load, percent</p>
+                        <p class="performance">
+                            <div class="performance" id="cpu_load"> </div>
+                        </p>
+                    </td>
+                    <td class="performance">
+                        <p class="performance">Memory usage, percent</p>
+                        <p class="performance">
+                            <div class="performance" id="mem_usage"> </div>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="idContentPage2">
+            Raw General Statistics as JSON
+        </div>
+        <div id="idContentPage3">
+            <no_data_panel>No RPC performance data available</no_data_panel>
+        </div>
+        <div id="idContentPage4">
+            <table class="stats_table" id="idStatsTable4">
+                <thead>
+                    <tr class="stats_table center_td">
+                        <th class="stats_table center_td">Name</th>
+                        <th class="stats_table center_td">Calls</th>
+                        <th class="stats_table center_td" colspan="2">Calls, p/s</th>
+                        <th class="stats_table center_td">Bytes recv</th>
+                        <th class="stats_table center_td" colspan="2">Bytes recv, p/s</th>
+                        <th class="stats_table center_td">Answers</th>
+                        <th class="stats_table center_td" colspan="2">Answers, p/s</th>
+                        <th class="stats_table center_td">Bytes sent</th>
+                        <th class="stats_table center_td" colspan="2">Bytes sent, p/s</th>
+                        <th class="stats_table center_td">Errors</th>
+                        <th class="stats_table center_td" colspan="2">Errors, p/s</th>
+                        <th class="stats_table center_td">Exceptions</th>
+                        <th class="stats_table center_td" colspan="2">Exceptions, p/s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="idContentPage5">
+            <table class="stats_table" id="idStatsTable5">
+                <thead>
+                    <tr class="stats_table center_td">
+                        <th class="stats_table center_td">Name</th>
+                        <th class="stats_table center_td">Calls</th>
+                        <th class="stats_table center_td" colspan="2">Calls, p/s</th>
+                        <th class="stats_table center_td">Bytes recv</th>
+                        <th class="stats_table center_td" colspan="2">Bytes recv, p/s</th>
+                        <th class="stats_table center_td">Answers</th>
+                        <th class="stats_table center_td" colspan="2">Answers, p/s</th>
+                        <th class="stats_table center_td">Bytes sent</th>
+                        <th class="stats_table center_td" colspan="2">Bytes sent, p/s</th>
+                        <th class="stats_table center_td">Errors</th>
+                        <th class="stats_table center_td" colspan="2">Errors, p/s</th>
+                        <th class="stats_table center_td">Exceptions</th>
+                        <th class="stats_table center_td" colspan="2">Exceptions, p/s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="idContentPage6">
+            <table class="stats_table" id="idStatsTable6">
+                <thead>
+                    <tr class="stats_table center_td">
+                        <th class="stats_table center_td">Name</th>
+                        <th class="stats_table center_td">Calls</th>
+                        <th class="stats_table center_td" colspan="2">Calls, p/s</th>
+                        <th class="stats_table center_td">Bytes recv</th>
+                        <th class="stats_table center_td" colspan="2">Bytes recv, p/s</th>
+                        <th class="stats_table center_td">Answers</th>
+                        <th class="stats_table center_td" colspan="2">Answers, p/s</th>
+                        <th class="stats_table center_td">Bytes sent</th>
+                        <th class="stats_table center_td" colspan="2">Bytes sent, p/s</th>
+                        <th class="stats_table center_td">Errors</th>
+                        <th class="stats_table center_td" colspan="2">Errors, p/s</th>
+                        <th class="stats_table center_td">Exceptions</th>
+                        <th class="stats_table center_td" colspan="2">Exceptions, p/s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="idContentPage7">
+            <table class="stats_table" id="idStatsTable7">
+                <thead>
+                    <tr class="stats_table center_td">
+                        <th class="stats_table center_td">Name</th>
+                        <th class="stats_table center_td">Calls</th>
+                        <th class="stats_table center_td" colspan="2">Calls, p/s</th>
+                        <th class="stats_table center_td">Bytes recv</th>
+                        <th class="stats_table center_td" colspan="2">Bytes recv, p/s</th>
+                        <th class="stats_table center_td">Answers</th>
+                        <th class="stats_table center_td" colspan="2">Answers, p/s</th>
+                        <th class="stats_table center_td">Bytes sent</th>
+                        <th class="stats_table center_td" colspan="2">Bytes sent, p/s</th>
+                        <th class="stats_table center_td">Errors</th>
+                        <th class="stats_table center_td" colspan="2">Errors, p/s</th>
+                        <th class="stats_table center_td">Exceptions</th>
+                        <th class="stats_table center_td" colspan="2">Exceptions, p/s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="idContentPage8">
+            <table class="stats_table" id="idStatsTable8">
+                <thead>
+                    <tr class="stats_table center_td">
+                        <th class="stats_table center_td">Name</th>
+                        <th class="stats_table center_td">Calls</th>
+                        <th class="stats_table center_td" colspan="2">Calls, p/s</th>
+                        <th class="stats_table center_td">Bytes recv</th>
+                        <th class="stats_table center_td" colspan="2">Bytes recv, p/s</th>
+                        <th class="stats_table center_td">Answers</th>
+                        <th class="stats_table center_td" colspan="2">Answers, p/s</th>
+                        <th class="stats_table center_td">Bytes sent</th>
+                        <th class="stats_table center_td" colspan="2">Bytes sent, p/s</th>
+                        <th class="stats_table center_td">Errors</th>
+                        <th class="stats_table center_td" colspan="2">Errors, p/s</th>
+                        <th class="stats_table center_td">Exceptions</th>
+                        <th class="stats_table center_td" colspan="2">Exceptions, p/s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="idContentPage9">
+            <div id="idTxDiagram"></div>
+            <a id="href_queue" href="#">QUEUE</a>
+            <div class="dialog" id="idDialogTransactions" title="Transactions">
+                <p>
+                    <div id="idDialogMessage"></div>
+                </p>
+                <div id="idTransactionsGrid"></div>
+            </div>
+            <div class="dialog" id="idDialogTransactionDetails" title="Transaction Details">
+                <p>
+                    <div id="idDialogMessage"></div>
+                </p>
+                <div id="idTransactionDetailsGrid"></div>
+            </div>
+        </div>
+        <div id="idContentPage10">
+            <!-- Performance Timeline Tracker -->
+            <div id="idPerformanceRecordingToolbar" style="margin: 0pt 0pt 3pt 0pt; display: none;">
+                <button id="idPerformanceRecordingStartStop" class="green" onclick="javascript: g_performanceTimeline.start_stop_recording();">&nbsp;&nbsp;Start Recording&nbsp;&nbsp;</button>
+                <span id="idPerformanceRecordingProgressLabel" style="display: none; color: red; background-color: transparent;">Recording...</span>
+                <span id="idPerformanceZoomControls">
+                    Zoom:
+                    <button id="idPerformanceZoomAll"   class="yellow" onclick="javascript: g_performanceTimeline.zoom_all();"  >&nbsp;&nbsp;All&nbsp;&nbsp;</button>
+                    <button id="idPerformanceZoomPlus"  class="yellow" onclick="javascript: g_performanceTimeline.zoom_plus();" >&nbsp;&nbsp; In &nbsp;&nbsp;</button>
+                    <button id="idPerformanceZoomMinus" class="yellow" onclick="javascript: g_performanceTimeline.zoom_minus();">&nbsp;&nbsp;Out&nbsp;&nbsp;</button>
+                </span>
+                <span id="idPerformanceMoveControls">
+                    Move:
+                    <button id="idPerformanceMoveLeft"  class="sand"   onclick="javascript: g_performanceTimeline.move_left();" >&nbsp;&nbsp;&lt;&lt;&lt;&nbsp;&nbsp;</button>
+                    <button id="idPerformanceMoveRight" class="sand"   onclick="javascript: g_performanceTimeline.move_right();">&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;&nbsp;</button>
+                </span>
+                <span id="idPerformanceViewOptionsControls">
+                    Options:
+                    <input type="checkbox" name="idPerformanceItemStacking" id="idPerformanceItemStacking" onclick="g_performanceTimeline.handleStackingClicked( this );"></input>
+                    <label for="idPerformanceItemStacking">Stacking</label>
+                </span>
+            </div>
+            <div id="idPerformanceTimeline"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
