@@ -138,7 +138,11 @@ form,
 #idContentPage6,
 #idContentPage7,
 #idContentPage8,
-#idContentPage9 {
+#idContentPage9,
+#idContentPage10,
+#idContentPage11,
+#idContentPage12,
+#idContentPage13 {
     font-size: 9pt;
     margin: 0;
     border: 0;
@@ -156,7 +160,11 @@ form,
 #idContentPage6,
 #idContentPage7,
 #idContentPage8,
-#idContentPage9 {
+#idContentPage9,
+#idContentPage10,
+#idContentPage11,
+#idContentPage12,
+#idContentPage13 {
     width: 100%;
 }
 
@@ -168,7 +176,11 @@ form,
 #idContentPage6,
 #idContentPage7,
 #idContentPage8,
-#idContentPage9 {
+#idContentPage9,
+#idContentPage10,
+#idContentPage11,
+#idContentPage12,
+#idContentPage13 {
     display: none;
 }
 
@@ -399,6 +411,16 @@ tr.stats_table.zombie_row:hover {
     background-color: #FF4040;
 }
 
+tr.stats_table.ban_row {
+    color: #FFFF40;
+    background-color: #FFA000;
+}
+
+tr.stats_table.ban_row:hover {
+    color: #FFFFA0;
+    background-color: #FFC000;
+}
+
 .spark_adjustment {
     width: 40pt;
     display: inline-block;
@@ -623,8 +645,8 @@ no_data_panel {
     margin: 0;
     border: 0;
     padding: 2em 4em;
-    font-size: 12pt;
-    font-weight: bold;
+    font-size: 11pt;
+    font-weight: normal;
     text-decoration: none;
 }
 
@@ -693,10 +715,10 @@ span.groupName2 {
 .vis-item { color: black; background-color: white; border-color: darkgrey; }
 .vis-item.rainbow0 { color: white; background-color: #e6261f; }
 .vis-item.rainbow1 { color: white; background-color: #eb7532; }
-.vis-item.rainbow2 { black: white; background-color: #f7d038; }
-.vis-item.rainbow3 { black: white; background-color: #a3e048; }
-.vis-item.rainbow4 { black: white; background-color: #49da9a; }
-.vis-item.rainbow5 { color: white; background-color: #34bbe6; }
+.vis-item.rainbow2 { color: black; background-color: #f7d038; }
+.vis-item.rainbow3 { color: black; background-color: #a3e048; }
+.vis-item.rainbow4 { color: black; background-color: #49da9a; }
+.vis-item.rainbow5 { color: black; background-color: #34bbe6; }
 .vis-item.rainbow6 { color: white; background-color: #4355db; }
 .vis-item.rainbow7 { color: white; background-color: #d23be7; }
 

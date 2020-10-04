@@ -1,4 +1,4 @@
-const g_cntPages = 10;
+const g_cntPages = 13;
 
 let g_nDecimalsToShow = 2;
 let g_nDecimalsToShow4Bytes = 0;
@@ -21,6 +21,13 @@ function lastStats() {
         return g_arrStats[ g_arrStats.length - 1 ];
     } catch ( err ) { }
     return null;
+}
+
+let g_idRawElement = 0;
+function nextRawElementID( strPrefix ) {
+    strPrefix = strPrefix || "idRawElement_";
+    ++ g_idRawElement;
+    return "" + strPrefix + g_idRawElement;
 }
 
 let g_idGenerator = 1;
@@ -369,7 +376,7 @@ function clear_page_content( idxPage ) {
         case 2: // Raw General Statistics as JSON
         break;
         case 3: // RPC / Summary Performance
-            $(idPage).html( "<no_data_panel>No RPC performance data available</no_data_panel>" );
+            $(idPage).html( "<no_data_panel>No <b>RPC performance</b> data available</no_data_panel>" );
         break;
         case 4: // RPC / All Subsystems
         case 5: // RPC / HTTP
@@ -384,10 +391,224 @@ function clear_page_content( idxPage ) {
         case 10: // Performance Timeline Tracker
             // g_performanceTimeline.destroy();
         break;
+        case 11: // UN-DDOS / Summary
+            $(idPage).html( "<no_data_panel>No <b>UN-DDOS / Summary</b> data available</no_data_panel>" );
+        break;
+        case 12: // UN-DDOS / RPC Counters
+            // $(idPage).html( "<no_data_panel>No <b>UN-DDOS / RPC Counters</b> data available</no_data_panel>" );
+        break;
+        case 13: // UN-DDOS / WS/WSS Counters
+            // $(idPage).html( "<no_data_panel>No <b>UN-DDOS / WS/WSS Counters</b> data available</no_data_panel>" );
+        break;
         default:
             $(idPage).html( "" );
         break;
     }
+}
+
+function update_simple_sparkline( id_sparkline, arr ) {
+    if( ! arr )
+        return;
+    while( arr.length < g_nStatsDepth )
+        arr.splice(0, 0, 0 ); // inset 0 at beginning
+    // https://omnipotent.net/jquery.sparkline/#s-docs
+    let jqSparkline = $( "#" + id_sparkline );
+    let clrSpot = "black";
+    let clrLine = "#404040";
+    let clrFill = "#9090FFFF";
+    let fn = function () {
+        jqSparkline.sparkline(
+            arr, {
+                type: "line",
+                "lineColor": clrLine,
+                "fillColor": clrFill,
+                "defaultPixelsPerValue": 2,
+                "spotColor": "#FF0000", //clrSpot
+                "minSpotColor": clrSpot,
+                "maxSpotColor": clrSpot,
+                "highlightSpotColor": clrSpot,
+                "highlightLineColor": clrSpot,
+                // "tooltipFormat": "{{y:val}}",
+                // "tooltipValueLookups": { "val": { "-1": "N/A" }}
+                // "tooltipFormatter": function ( sp, options, fields ) {
+                //     return "" + Number( fields.y ).toFixed( g_nDecimalsToShow ) + " " + strPropertyNameShort;
+                // }
+            } );
+    };
+    //fn();
+    setTimeout( fn, 0 );
+}
+
+function extract_unddos_history_value( s ) {
+    try {
+        if( s == null || s == undefined )
+            return 0;
+        return parseInt( s );
+    } catch( err ) {
+        return 0;
+    }
+}
+
+function extract_unddos_history_data( strOriginName, strSubsystemName, strPropertyName ) {
+    const arr = [];
+    for( const joHistoryEntry of g_arrStats ) {
+        let n = 0;
+        if( joHistoryEntry.unddos && joHistoryEntry.unddos[strSubsystemName] && joHistoryEntry.unddos[strSubsystemName][strOriginName] ) {
+            try {
+                n = extract_unddos_history_value( joHistoryEntry.unddos[strSubsystemName][strOriginName][strPropertyName] );
+            } catch( err ) {
+                n = 0;
+            }
+        }
+        arr.push( n );
+    }
+    return arr;
+}
+
+const g_mapUnDdosRPC = {};
+function helper_unddos_rpc_page_content( idxPage, joStats ) {
+    if( (!joStats) || (!joStats.unddos) || (!joStats.unddos.calls) )
+        return;
+    const table = document.getElementById( "idStatsTable" + idxPage );
+    const tbody = table.tBodies[0];
+    const mapOrigins = joStats.unddos.calls;
+    // add new
+    for( let [ strOriginName, joOriginData ] of Object.entries( mapOrigins ) ) {
+        let joOrigin = null, td = null;
+        if( ! ( strOriginName in g_mapUnDdosRPC ) ) {
+            tr = document.createElement( "tr" );
+            tr.className = " stats_table";
+            td = document.createElement( "td" ); // Origin name
+            td.className += " stats_table";
+            td.innerHTML = "" + strOriginName;
+            tr.appendChild( td );
+            td = document.createElement( "td" ); // Status
+            td.className += " stats_table";
+            tr.appendChild( td );
+            td = document.createElement( "td" ); // Calls, p/s
+            td.className += " stats_table right_td";
+            tr.appendChild( td );
+            td = document.createElement( "td" );
+            td.className += " stats_table";
+            tr.appendChild( td );
+            td = document.createElement( "td" ); // last minute
+            td.className += " stats_table right_td";
+            tr.appendChild( td );
+            td = document.createElement( "td" );
+            td.className += " stats_table";
+            tr.appendChild( td );
+            tbody.appendChild( tr );
+            joOrigin = {
+                name: "" +  strOriginName
+                , tr: tr
+                , id_sparkline_cps: nextRawElementID( "id_unddos_sparkline_" + idxPage + "_" )
+                , id_sparkline_cpm: nextRawElementID( "id_unddos_sparkline_" + idxPage + "_" )
+            };
+            g_mapUnDdosRPC[ strOriginName ] = joOrigin;
+        } else {
+            joOrigin = g_mapUnDdosRPC[ strOriginName ];
+        }
+        if( joOriginData.ban )
+            $( tr ).addClass( "ban_row" );
+        else
+            $( tr ).removeClass( "ban_row" );
+        let nCellIndex = 1; // Status
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = joOriginData.ban ? "banned" : "working";
+        ++ nCellIndex; // Calls, p/s
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = extract_unddos_history_value( joOriginData.cps );
+        ++ nCellIndex; // Calls, p/s, sparkline
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = "<span class=\"spark_adjustment\" id=\"" + joOrigin.id_sparkline_cps + "\"></span>";
+        ++ nCellIndex; // last minute
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = extract_unddos_history_value( joOriginData.cpm );
+        ++ nCellIndex; // last minute, sparkline
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = "<span class=\"spark_adjustment\" id=\"" + joOrigin.id_sparkline_cpm + "\"></span>";
+        update_simple_sparkline( joOrigin.id_sparkline_cps, extract_unddos_history_data( strOriginName, "calls", "cps" ) );
+        update_simple_sparkline( joOrigin.id_sparkline_cpm, extract_unddos_history_data( strOriginName, "calls", "cpm" ) );
+    }
+    // remove old
+    const arrOriginNamesToErase = [];
+    for( let [ strOriginName, joOrigin ] of Object.entries( g_mapUnDdosRPC ) ) {
+        if( strOriginName in mapOrigins )
+            continue;
+        arrOriginNamesToErase.push( strOriginName );
+        if( joOrigin.tr ) {
+            joOrigin.tr.remove();
+            joOrigin.tr = null;
+        }
+    }
+    for( const strOriginName of arrOriginNamesToErase )
+        delete g_mapUnDdosRPC[ strOriginName ];
+}
+
+const g_mapUnDdosWS = {};
+function helper_unddos_ws_calls_page_content( idxPage, joStats ) {
+    if( (!joStats) || (!joStats.unddos) || (!joStats.unddos.ws_conns) )
+        return;
+    const table = document.getElementById( "idStatsTable" + idxPage );
+    const tbody = table.tBodies[0];
+    const mapOrigins = joStats.unddos.ws_conns;
+    // add new
+    for( let [ strOriginName, joOriginData ] of Object.entries( mapOrigins ) ) {
+        let joOrigin = null, td = null;
+        if( ! ( strOriginName in g_mapUnDdosWS ) ) {
+            tr = document.createElement( "tr" );
+            tr.className = " stats_table";
+            td = document.createElement( "td" ); // Origin name
+            td.className += " stats_table";
+            td.innerHTML = "" + strOriginName;
+            tr.appendChild( td );
+            td = document.createElement( "td" ); // Status
+            td.className += " stats_table";
+            tr.appendChild( td );
+            td = document.createElement( "td" ); // Connections
+            td.className += " stats_table right_td";
+            tr.appendChild( td );
+            td = document.createElement( "td" );
+            td.className += " stats_table";
+            tr.appendChild( td );
+            tbody.appendChild( tr );
+            joOrigin = {
+                name: "" +  strOriginName
+                , tr: tr
+                , id_sparkline_connections: nextRawElementID( "id_unddos_sparkline_" + idxPage + "_" )
+            };
+            g_mapUnDdosWS[ strOriginName ] = joOrigin;
+        } else {
+            joOrigin = g_mapUnDdosWS[ strOriginName ];
+        }
+        if( joOriginData.ban )
+            $( tr ).addClass( "ban_row" );
+        else
+            $( tr ).removeClass( "ban_row" );
+        let nCellIndex = 1; // Status
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = joOriginData.ban ? "banned" : "working";
+        ++ nCellIndex; // Connections
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = extract_unddos_history_value( joOriginData.cnt );
+        ++ nCellIndex; // Connections, sparkline
+        td = joOrigin.tr.children[ nCellIndex ];
+        td.innerHTML = "<span class=\"spark_adjustment\" id=\"" + joOrigin.id_sparkline_connections + "\"></span>";
+        update_simple_sparkline( joOrigin.id_sparkline_connections, extract_unddos_history_data( strOriginName, "ws_conns", "cnt" ) );
+    }
+    // remove old
+    const arrOriginNamesToErase = [];
+    for( let [ strOriginName, joOrigin ] of Object.entries( g_mapUnDdosWS ) ) {
+        if( strOriginName in mapOrigins )
+            continue;
+        arrOriginNamesToErase.push( strOriginName );
+        if( joOrigin.tr ) {
+            joOrigin.tr.remove();
+            joOrigin.tr = null;
+        }
+    }
+    for( const strOriginName of arrOriginNamesToErase )
+        delete g_mapUnDdosWS[ strOriginName ];
 }
 
 let map_tr_apis = {
@@ -467,7 +688,6 @@ function helper_create_rpc_page_content( idxPage ) {
         return;
     let apis_table = document.getElementById( "idStatsTable" + idxPage );
     let apis_table_tbody = apis_table.tBodies[0];
-
 
     let map_api_history = fnExtractRPC( lastStats() );
     let api_names = Object.keys(map_api_history);
@@ -734,7 +954,38 @@ function render_rpc_performance_data( idxPage, joStats ) {
         }
     }
     if( strContent.length == 0 )
-        strContent = "<no_data_panel>No RPC performance data available</no_data_panel>";
+        strContent = "<no_data_panel>No <b>RPC performance</b> data available</no_data_panel>";
+    let idPage = "#idContentPage" + idxPage;
+    $(idPage).html( strContent );
+}
+
+function render_unddos_summary( idxPage, joStats ) {
+    let strContent = "";
+    let joUnDDOS = null;
+    try { joUnDDOS = joStats.unddos } catch( err ) { joUnDDOS = null; }
+    let joUnDDOS_counts = null;
+    try { joUnDDOS_counts = joUnDDOS.counts } catch( err ) { joUnDDOS_counts = null; }
+    if( joUnDDOS_counts && typeof joUnDDOS_counts == "object" ) {
+        strContent += "<div class=\"performance_div\">";
+        strContent += "<div class=\"performance_header\">JSON RPC</div>";
+        strContent += "<table class=\"performance_table\"><tbody>";
+        strContent += "<tr><td class=\"performance_header\">Banned origin count</td><td class=\"performance_value\">" + joUnDDOS_counts.rpc_ban + "</td></tr>";
+        strContent += "<tr><td class=\"performance_header\">Working origin count</td><td class=\"performance_value\">" + joUnDDOS_counts.rpc_normal + "</td></tr>";
+        strContent += "</tbody><table>";
+        strContent += "</div>";
+        strContent += "</div>";
+        //
+        strContent += "<div class=\"performance_div\">";
+        strContent += "<div class=\"performance_header\">WS/WSS Calls</div>";
+        strContent += "<table class=\"performance_table\"><tbody>";
+        strContent += "<tr><td class=\"performance_header\">Banned origin count</td><td class=\"performance_value\">" + joUnDDOS_counts.ws_ban + "</td></tr>";
+        strContent += "<tr><td class=\"performance_header\">Working origin count</td><td class=\"performance_value\">" + joUnDDOS_counts.ws_normal + "</td></tr>";
+        strContent += "</tbody><table>";
+        strContent += "</div>";
+        strContent += "</div>";
+    }
+    if( strContent.length == 0 )
+        strContent = "<no_data_panel>No <b>UN-DDOS / Summary</b> data available</no_data_panel>";
     let idPage = "#idContentPage" + idxPage;
     $(idPage).html( strContent );
 }
@@ -823,6 +1074,13 @@ function create_page_content( idxPage ) {
                 $("#idPerformanceRecordingToolbar").css( { display: "block" } );
                 $("#idPerformanceTimeline").css( { display: "block" } );
             } break;
+            case 11: // UN-DDOS / Summary
+                return render_unddos_summary( idxPage, joStats );
+            case 12: // UN-DDOS / RPC Counters
+                return helper_unddos_rpc_page_content( idxPage, joStats );
+            case 13: // UN-DDOS / WS/WSS Counters
+                return helper_unddos_ws_calls_page_content( idxPage, joStats );
+            break;
         }
     } catch ( err ) {
         //strContent = "<pre>" + err + "</pre>";
@@ -870,8 +1128,11 @@ async function do_refresh_data() {
         "params": null
     }, async function ( joAnswer ) {
         await pushStats( joAnswer.result );
-        populate_cpu_load_stats( joAnswer.result.system.cpu_load );
-        populate_mem_usage_stats( joAnswer.result.system.mem_usage );
+        try {
+            populate_cpu_load_stats( joAnswer.result.system.cpu_load );
+            populate_mem_usage_stats( joAnswer.result.system.mem_usage );
+        } catch( err ) {
+        }
     } );
 }
 
