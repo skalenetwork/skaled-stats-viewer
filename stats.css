@@ -142,7 +142,8 @@ form,
 #idContentPage10,
 #idContentPage11,
 #idContentPage12,
-#idContentPage13 {
+#idContentPage13,
+#idContentPage14 {
     font-size: 9pt;
     margin: 0;
     border: 0;
@@ -164,7 +165,8 @@ form,
 #idContentPage10,
 #idContentPage11,
 #idContentPage12,
-#idContentPage13 {
+#idContentPage13,
+#idContentPage14 {
     width: 100%;
 }
 
@@ -180,7 +182,8 @@ form,
 #idContentPage10,
 #idContentPage11,
 #idContentPage12,
-#idContentPage13 {
+#idContentPage13,
+#idContentPage14 {
     display: none;
 }
 
@@ -731,3 +734,21 @@ span.text-rainbow5 { color: #34bbe6; }
 span.text-rainbow6 { color: #4355db; }
 span.text-rainbow7 { color: #d23be7; }
 
+/* canvas#idMiningBlocksPerSecond {
+    margin: 0;
+    padding: 0;
+    border: 0;
+} */
+
+.miningCaption {
+    font-size: 14pt;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.miningValue {
+    font-size: 26pt;
+    text-decoration: none;
+    font-weight: normal;
+}

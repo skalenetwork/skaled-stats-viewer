@@ -34,7 +34,10 @@
 
     <script src="vis-4.21.0/dist/vis.js"></script>
     <link href="vis-4.21.0/dist/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
-  
+
+    <!-- see https://bernii.github.io/gauge.js/ -->
+    <!-- <script src="gauge/gauge.js"></script> -->
+    
     <link rel="stylesheet" href="stats.css" type="text/css" rel="stylesheet">
     <script src="stats.js"></script>
 
@@ -82,6 +85,7 @@
                             <option value="11">UN-DDOS / Summary</option>
                             <option value="12">UN-DDOS / RPC Counters</option>
                             <option value="13">UN-DDOS / WS/WSS Counters</option>
+                            <option value="14">Mining stats</option>
                         </select>
                     </form>
                 </td>
@@ -322,6 +326,21 @@
                 <tbody>
                 </tbody>
             </table>
+        </div>
+        <div id="idContentPage14">
+            <!-- Mining stats -->
+            <!-- <canvas width="300" height="200" style="width: 300px; height: 200px;" id="idMiningBlocksPerSecond">
+            </canvas> -->
+
+            <div class="miningCaption">Blocks per second</div>
+            <div id="idMiningBlocksPerSecond" class="miningValue"> </div>
+
+            <div class="miningCaption">Transactions per block</div>
+            <div id="idMiningTransactionsPerBlock" class="miningValue"> </div>
+
+            <div class="miningCaption">Transactions per second</div>
+            <div id="idMiningTransactionsPerSecond" class="miningValue"> </div>
+            
         </div>
     </div>
 
