@@ -758,6 +758,12 @@ div.miningValue {
     display: inline-block;
 }
 
-canvas.mining {
+canvas.miningGauge {
     display: inline-block;
+}
+
+canvas.miningChart {
+    display: inline-block;
+    width: 400pt;
+    margin-left: 50pt;
 }

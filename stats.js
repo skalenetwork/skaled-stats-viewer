@@ -550,6 +550,13 @@ function helper_unddos_rpc_page_content( idxPage, joStats ) {
 let g_gaugeMiningBlocksPerSecond = null;
 let g_gaugeMiningTransactionsPerBlock = null;
 let g_gaugeMiningTransactionsPerSecond = null;
+let g_chartMiningBlocksPerSecond = null;
+let g_chartMiningTransactionsPerBlock = null;
+let g_chartMiningTransactionsPerSecond = null;
+const g_nMaxMiningChartHistoryLength = 30;
+const g_arrMiningHistoryBlocksPerSecond = [];
+const g_arrMiningHistoryTransactionsPerBlock = [];
+const g_arrMiningHistoryTransactionsPerSecond = [];
 
 function helper_mining_page_content( idxPage, joStats ) {
     $( "div#idMiningBlocksPerSecond" ).html( joStats.blocks.blocksPerSecond.toFixed( 2 ) );
@@ -567,6 +574,56 @@ function helper_mining_page_content( idxPage, joStats ) {
     g_gaugeMiningTransactionsPerBlock.value = joStats.blocks.transactionsPerBlock;
     g_gaugeMiningTransactionsPerSecond.value = joStats.blocks.transactionsPerSecond;
 
+    if( g_chartMiningBlocksPerSecond == null )
+        g_chartMiningBlocksPerSecond = new_mining_chart( "idChartMiningBlocksPerSecond", "Blocks per second" );
+    if( g_chartMiningTransactionsPerBlock == null )
+        g_chartMiningTransactionsPerBlock = new_mining_chart( "idChartMiningTransactionsPerBlock", "Transactions per block" );
+    if( g_chartMiningTransactionsPerSecond == null )
+        g_chartMiningTransactionsPerSecond = new_mining_chart( "idChartMiningTransactionsPerSecond", "Transactions per second" );
+    append_to_mining_history_array( g_arrMiningHistoryBlocksPerSecond, joStats.blocks.blocksPerSecond );
+    append_to_mining_history_array( g_arrMiningHistoryTransactionsPerBlock, joStats.blocks.transactionsPerBlock );
+    append_to_mining_history_array( g_arrMiningHistoryTransactionsPerSecond, joStats.blocks.transactionsPerSecond );
+    g_chartMiningBlocksPerSecond.data.datasets[0].data = g_arrMiningHistoryBlocksPerSecond;
+    g_chartMiningBlocksPerSecond.update( 0 );
+    g_chartMiningTransactionsPerBlock.data.datasets[0].data = g_arrMiningHistoryTransactionsPerBlock;
+    g_chartMiningTransactionsPerBlock.update( 0 );
+    g_chartMiningTransactionsPerSecond.data.datasets[0].data = g_arrMiningHistoryTransactionsPerSecond;
+    g_chartMiningTransactionsPerSecond.update( 0 );
+}
+
+function append_to_mining_history_array( arr, val ) {
+    arr.push( val );
+    while( arr.length > g_nMaxMiningChartHistoryLength )
+        arr.shift();
+    return arr;
+}
+
+function new_mining_chart( element_id, strLabel ) {
+    const ctx = document.getElementById( element_id ).getContext( "2d" );
+    const chart = new Chart( ctx, {
+        type: "line",
+        data: {
+            labels: create_mining_chart_labels_array(), // ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: strLabel,
+                backgroundColor: "#808080",
+                borderColor: "808080",
+                fill: false,
+                data: [] // [0, 10, 5, 2, 20, 30, 45]
+            }]
+        },
+        options: {
+            responsive: false
+        }
+    });
+    return chart;
+}
+
+function create_mining_chart_labels_array() {
+    const arr = [];
+    for( let i = 0; i < g_nMaxMiningChartHistoryLength; ++ i )
+        arr.push( " " );
+    return arr;
 }
 
 function find_gauge_by_element_id( element_id ) {

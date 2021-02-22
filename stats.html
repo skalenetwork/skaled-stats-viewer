@@ -37,6 +37,14 @@
 
     <!-- see https://www.cssscript.com/canvas-based-html5-gauge-library-gauge-js/ -->
     <script async src="canvas-gauges-master/gauge.min.js"></script>
+
+    <!--
+    see https://www.chartjs.org/
+    see https://www.chartjs.org/docs/latest/
+    see https://github.com/chartjs/Chart.js
+    see https://cdnjs.com/libraries/Chart.js
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     
     <link rel="stylesheet" href="stats.css" type="text/css" rel="stylesheet">
     <script src="stats.js"></script>
@@ -355,7 +363,7 @@
                     </tr>
                     <tr class="mining">
                         <td class="mining">
-                            <canvas id="idGaugeMiningBlocksPerSecond" class="mining"
+                            <canvas id="idGaugeMiningBlocksPerSecond" class="miningGauge"
                             data-type="radial-gauge"
                             data-major-ticks="0, 5, 10, 15, 20"
                             data-type="radial-gauge"
@@ -378,7 +386,15 @@
                             data-color-needle-start="#800000"
                             data-color-needle-end="red"
                             data-stroke-ticks="false"
-
+                            data-animation-rule="linear"
+                            data-color-needle-circle-outer="#ccc"
+                            data-needle-circle-size="16"
+                            data-needle-circle-outer="true"
+                            data-needle-type="line"
+                            data-needle-width="2"
+                            data-needle-start="5"
+                            data-needle-end="87"
+                    
                             data-bar-width="5"
                             data-bar-shadow="1"
                             data-color-bar-progress="rgba(200,50,50,.75)"
@@ -397,7 +413,7 @@
                             ></canvas>
                         </td>
                         <td class="mining">
-                            <canvas id="idGaugeMiningTransactionsPerBlock" class="mining"
+                            <canvas id="idGaugeMiningTransactionsPerBlock" class="miningGauge"
                             data-type="radial-gauge"
                             data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
                             data-type="radial-gauge"
@@ -420,6 +436,14 @@
                             data-color-needle-start="#800000"
                             data-color-needle-end="red"
                             data-stroke-ticks="false"
+                            data-animation-rule="linear"
+                            data-color-needle-circle-outer="#ccc"
+                            data-needle-circle-size="16"
+                            data-needle-circle-outer="true"
+                            data-needle-type="line"
+                            data-needle-width="2"
+                            data-needle-start="5"
+                            data-needle-end="87"
 
                             data-bar-width="5"
                             data-bar-shadow="1"
@@ -439,7 +463,7 @@
                             ></canvas>
                         </td>
                         <td class="mining">
-                            <canvas id="idGaugeMiningTransactionsPerSecond" class="mining"
+                            <canvas id="idGaugeMiningTransactionsPerSecond" class="miningGauge"
                             data-type="radial-gauge"
                             data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
                             data-type="radial-gauge"
@@ -462,7 +486,15 @@
                             data-color-needle-start="#800000"
                             data-color-needle-end="red"
                             data-stroke-ticks="false"
-                                            
+                            data-animation-rule="linear"
+                            data-color-needle-circle-outer="#ccc"
+                            data-needle-circle-size="16"
+                            data-needle-circle-outer="true"
+                            data-needle-type="line"
+                            data-needle-width="2"
+                            data-needle-start="5"
+                            data-needle-end="87"
+              
                             data-bar-width="5"
                             data-bar-shadow="1"
                             data-color-bar-progress="rgba(200,50,50,.75)"
@@ -479,6 +511,17 @@
                             data-color-value-box-background="transparent"
                             data-needle="true"
                             ></canvas>
+                        </td>
+                    </tr>
+                    <tr class="mining">
+                        <td class="mining">
+                            <canvas id="idChartMiningBlocksPerSecond" class="miningChart"></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idChartMiningTransactionsPerBlock" class="miningChart"></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idChartMiningTransactionsPerSecond" class="miningChart"></canvas>
                         </td>
                     </tr>
                 </tbody>
