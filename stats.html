@@ -348,6 +348,9 @@
                     <th class="mining">
                         <div class="mining">Transactions per second</div>
                     </th>
+                    <th class="mining">
+                        <div class="mining">Pending TX per second</div>
+                    </th>
                 </thead>
                 <tbody class="mining">
                     <tr class="mining">
@@ -359,6 +362,9 @@
                         </td>
                         <td class="mining">
                             <div id="idMiningTransactionsPerSecond" class="miningValue"> </div>
+                        </td class="mining">
+                        <td class="mining">
+                            <div id="idMiningPendingTxPerSecond" class="miningValue"> </div>
                         </td class="mining">
                     </tr>
                     <tr class="mining">
@@ -415,7 +421,7 @@
                         <td class="mining">
                             <canvas id="idGaugeMiningTransactionsPerBlock" class="miningGauge"
                             data-type="radial-gauge"
-                            data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
+                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
                             data-type="radial-gauge"
                             data-title="Transactions"
                             data-units="per block"
@@ -424,7 +430,7 @@
                             data-value-int="0"
                             data-value-dec="0"
                             data-min-value="0"
-                            data-max-value="500"
+                            data-max-value="1000"
                             data-highlights="false"
                             data-value-box="0"
                             data-color-plate="transparent"
@@ -465,7 +471,7 @@
                         <td class="mining">
                             <canvas id="idGaugeMiningTransactionsPerSecond" class="miningGauge"
                             data-type="radial-gauge"
-                            data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
+                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
                             data-type="radial-gauge"
                             data-title="Transactions"
                             data-units="per second"
@@ -474,7 +480,57 @@
                             data-value-int="0"
                             data-value-dec="0"
                             data-min-value="0"
-                            data-max-value="500"
+                            data-max-value="1000"
+                            data-highlights="false"
+                            data-value-box="0"
+                            data-color-plate="transparent"
+                            data-color-major-ticks="#404040"
+                            data-color-minor-ticks="#C0C0C0"
+                            data-color-title="#000000"
+                            data-color-units="#000000"
+                            data-color-numbers="#000000"
+                            data-color-needle-start="#800000"
+                            data-color-needle-end="red"
+                            data-stroke-ticks="false"
+                            data-animation-rule="linear"
+                            data-color-needle-circle-outer="#ccc"
+                            data-needle-circle-size="16"
+                            data-needle-circle-outer="true"
+                            data-needle-type="line"
+                            data-needle-width="2"
+                            data-needle-start="5"
+                            data-needle-end="87"
+              
+                            data-bar-width="5"
+                            data-bar-shadow="1"
+                            data-color-bar-progress="rgba(200,50,50,.75)"
+                            data-color-bar="#ffF0D0"
+                            data-border-shadow-width="0"
+                            data-border-inner-width="0"
+                            data-border-outer-width="0"
+                            data-border-middle-width="0"
+                            data-highlights="false"
+                            data-value-box-stroke="0"
+                            data-color-value-box-shadow="0"
+                            data-value-box-border-radius="0"
+                            data-value-text-shadow="0"
+                            data-color-value-box-background="transparent"
+                            data-needle="true"
+                            ></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idGaugeMiningPendingTxPerSecond" class="miningGauge"
+                            data-type="radial-gauge"
+                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
+                            data-type="radial-gauge"
+                            data-title="Pending TX"
+                            data-units="per second"
+                            data-width="400"
+                            data-height="400"
+                            data-value-int="0"
+                            data-value-dec="0"
+                            data-min-value="0"
+                            data-max-value="1000"
                             data-highlights="false"
                             data-value-box="0"
                             data-color-plate="transparent"
@@ -522,6 +578,9 @@
                         </td>
                         <td class="mining">
                             <canvas id="idChartMiningTransactionsPerSecond" class="miningChart"></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idChartMiningPendingTxPerSecond" class="miningChart"></canvas>
                         </td>
                     </tr>
                 </tbody>

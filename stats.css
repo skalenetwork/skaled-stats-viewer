@@ -764,6 +764,6 @@ canvas.miningGauge {
 
 canvas.miningChart {
     display: inline-block;
-    width: 400pt;
-    margin-left: 50pt;
+    width: 300pt;
+    margin-left: 20pt;
 }

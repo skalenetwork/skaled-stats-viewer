@@ -550,18 +550,22 @@ function helper_unddos_rpc_page_content( idxPage, joStats ) {
 let g_gaugeMiningBlocksPerSecond = null;
 let g_gaugeMiningTransactionsPerBlock = null;
 let g_gaugeMiningTransactionsPerSecond = null;
+let g_gaugeMiningPendingTxPerSecond = null;
 let g_chartMiningBlocksPerSecond = null;
 let g_chartMiningTransactionsPerBlock = null;
 let g_chartMiningTransactionsPerSecond = null;
+let g_chartMiningPendingTxPerSecond = null;
 const g_nMaxMiningChartHistoryLength = 30;
 const g_arrMiningHistoryBlocksPerSecond = [];
 const g_arrMiningHistoryTransactionsPerBlock = [];
 const g_arrMiningHistoryTransactionsPerSecond = [];
+const g_arrMiningHistoryPendingTxPerSecond = [];
 
 function helper_mining_page_content( idxPage, joStats ) {
     $( "div#idMiningBlocksPerSecond" ).html( joStats.blocks.blocksPerSecond.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerBlock" ).html( joStats.blocks.transactionsPerBlock.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerSecond" ).html( joStats.blocks.transactionsPerSecond.toFixed( 2 ) );
+    $( "div#idMiningPendingTxPerSecond" ).html( joStats.blocks.pendingTxPerSecond.toFixed( 2 ) );
 
     if( ! g_gaugeMiningBlocksPerSecond )
         g_gaugeMiningBlocksPerSecond = find_gauge_by_element_id( "idGaugeMiningBlocksPerSecond" );
@@ -569,10 +573,13 @@ function helper_mining_page_content( idxPage, joStats ) {
         g_gaugeMiningTransactionsPerBlock = find_gauge_by_element_id( "idGaugeMiningTransactionsPerBlock" );
     if( ! g_gaugeMiningTransactionsPerSecond )
         g_gaugeMiningTransactionsPerSecond = find_gauge_by_element_id( "idGaugeMiningTransactionsPerSecond" );
+    if( ! g_gaugeMiningPendingTxPerSecond )
+        g_gaugeMiningPendingTxPerSecond = find_gauge_by_element_id( "idGaugeMiningPendingTxPerSecond" );
 
     g_gaugeMiningBlocksPerSecond.value = joStats.blocks.blocksPerSecond;
     g_gaugeMiningTransactionsPerBlock.value = joStats.blocks.transactionsPerBlock;
     g_gaugeMiningTransactionsPerSecond.value = joStats.blocks.transactionsPerSecond;
+    g_gaugeMiningPendingTxPerSecond.value = joStats.blocks.pendingTxPerSecond;
 
     if( g_chartMiningBlocksPerSecond == null )
         g_chartMiningBlocksPerSecond = new_mining_chart( "idChartMiningBlocksPerSecond", "Blocks per second" );
@@ -580,15 +587,20 @@ function helper_mining_page_content( idxPage, joStats ) {
         g_chartMiningTransactionsPerBlock = new_mining_chart( "idChartMiningTransactionsPerBlock", "Transactions per block" );
     if( g_chartMiningTransactionsPerSecond == null )
         g_chartMiningTransactionsPerSecond = new_mining_chart( "idChartMiningTransactionsPerSecond", "Transactions per second" );
+    if( g_chartMiningPendingTxPerSecond == null )
+        g_chartMiningPendingTxPerSecond = new_mining_chart( "idChartMiningPendingTxPerSecond", "Pending TX per second" );
     append_to_mining_history_array( g_arrMiningHistoryBlocksPerSecond, joStats.blocks.blocksPerSecond );
     append_to_mining_history_array( g_arrMiningHistoryTransactionsPerBlock, joStats.blocks.transactionsPerBlock );
     append_to_mining_history_array( g_arrMiningHistoryTransactionsPerSecond, joStats.blocks.transactionsPerSecond );
+    append_to_mining_history_array( g_arrMiningHistoryPendingTxPerSecond, joStats.blocks.pendingTxPerSecond );
     g_chartMiningBlocksPerSecond.data.datasets[0].data = g_arrMiningHistoryBlocksPerSecond;
     g_chartMiningBlocksPerSecond.update( 0 );
     g_chartMiningTransactionsPerBlock.data.datasets[0].data = g_arrMiningHistoryTransactionsPerBlock;
     g_chartMiningTransactionsPerBlock.update( 0 );
     g_chartMiningTransactionsPerSecond.data.datasets[0].data = g_arrMiningHistoryTransactionsPerSecond;
     g_chartMiningTransactionsPerSecond.update( 0 );
+    g_chartMiningPendingTxPerSecond.data.datasets[0].data = g_arrMiningHistoryPendingTxPerSecond;
+    g_chartMiningPendingTxPerSecond.update( 0 );
 }
 
 function append_to_mining_history_array( arr, val ) {
