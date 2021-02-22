@@ -35,8 +35,8 @@
     <script src="vis-4.21.0/dist/vis.js"></script>
     <link href="vis-4.21.0/dist/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- see https://bernii.github.io/gauge.js/ -->
-    <!-- <script src="gauge/gauge.js"></script> -->
+    <!-- see https://www.cssscript.com/canvas-based-html5-gauge-library-gauge-js/ -->
+    <script async src="canvas-gauges-master/gauge.min.js"></script>
     
     <link rel="stylesheet" href="stats.css" type="text/css" rel="stylesheet">
     <script src="stats.js"></script>
@@ -329,17 +329,82 @@
         </div>
         <div id="idContentPage14">
             <!-- Mining stats -->
-            <!-- <canvas width="300" height="200" style="width: 300px; height: 200px;" id="idMiningBlocksPerSecond">
-            </canvas> -->
-
-            <div class="miningCaption">Blocks per second</div>
-            <div id="idMiningBlocksPerSecond" class="miningValue"> </div>
-
-            <div class="miningCaption">Transactions per block</div>
-            <div id="idMiningTransactionsPerBlock" class="miningValue"> </div>
-
-            <div class="miningCaption">Transactions per second</div>
-            <div id="idMiningTransactionsPerSecond" class="miningValue"> </div>
+            <table class="mining">
+                <thead class="mining">
+                    <th class="mining">
+                        <div class="mining">Blocks per second</div>
+                    </th>
+                    <th class="mining">
+                        <div class="mining">Transactions per block</div>
+                    </th>
+                    <th class="mining">
+                        <div class="mining">Transactions per second</div>
+                    </th>
+                </thead>
+                <tbody class="mining">
+                    <tr class="mining">
+                        <td class="mining">
+                            <div id="idMiningBlocksPerSecond" class="miningValue"> </div>
+                        </td>
+                        <td class="mining">
+                            <div id="idMiningTransactionsPerBlock" class="miningValue"> </div>
+                        </td>
+                        <td class="mining">
+                            <div id="idMiningTransactionsPerSecond" class="miningValue"> </div>
+                        </td class="mining">
+                    </tr>
+                    <tr class="mining">
+                        <td class="mining">
+                            <canvas id="idGaugeMiningBlocksPerSecond" class="mining"
+                            data-type="radial-gauge"
+                            data-major-ticks="0, 5, 10, 15, 20"
+                            data-type="radial-gauge"
+                            data-title="Blocks p/sec"
+                            data-units="Blocks"
+                            data-width="400"
+                            data-height="400"
+                            data-value-int="0"
+                            data-value-dec="0"
+                            data-min-value="0"
+                            data-max-value="20"
+                            data-highlights="false"
+                            ></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idGaugeMiningTransactionsPerBlock" class="mining"
+                            data-type="radial-gauge"
+                            data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
+                            data-type="radial-gauge"
+                            data-title="Transactions p/block"
+                            data-units="Transactions"
+                            data-width="400"
+                            data-height="400"
+                            data-value-int="0"
+                            data-value-dec="0"
+                            data-min-value="0"
+                            data-max-value="500"
+                            data-highlights="false"
+                            ></canvas>
+                        </td>
+                        <td class="mining">
+                            <canvas id="idGaugeMiningTransactionsPerSecond" class="mining"
+                            data-type="radial-gauge"
+                            data-major-ticks="0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500"
+                            data-type="radial-gauge"
+                            data-title="Transactions p/second"
+                            data-units="Transactions"
+                            data-width="400"
+                            data-height="400"
+                            data-value-int="0"
+                            data-value-dec="0"
+                            data-min-value="0"
+                            data-max-value="500"
+                            data-highlights="false"
+                            ></canvas>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             
         </div>
     </div>

@@ -547,55 +547,42 @@ function helper_unddos_rpc_page_content( idxPage, joStats ) {
         delete g_mapUnDdosRPC[ strOriginName ];
 }
 
-// let g_gaugeBlocksPerSecond = null;
+let g_gaugeMiningBlocksPerSecond = null;
+let g_gaugeMiningTransactionsPerBlock = null;
+let g_gaugeMiningTransactionsPerSecond = null;
 
 function helper_mining_page_content( idxPage, joStats ) {
-    // const opts = {
-    //     angle: -0.2, // The span of the gauge arc
-    //     lineWidth: 0.12, // The line thickness
-    //     radiusScale: 1, // Relative radius
-    //     pointer: {
-    //         length: 0.65, // // Relative to gauge radius
-    //         strokeWidth: 0.046, // The thickness
-    //         color: '#000000' // Fill color
-    //     },
-    //     limitMax: false,     // If false, max value increases automatically if value > maxValue
-    //     limitMin: false,     // If true, the min value of the gauge will be fixed
-    //     colorStart: '#6FADCF',   // Colors
-    //     colorStop: '#8FC0DA',    // just experiment with them
-    //     strokeColor: '#E0E0E0',  // to see which ones work best for you
-    //     generateGradient: true,
-    //     highDpiSupport: true,     // High resolution support
-    //     staticLabels: {
-    //         font: "10px sans-serif",  // Specifies font
-    //         labels: [100, 130, 150, 220.1, 260, 300],  // Print labels at these values
-    //         color: "#000000",  // Optional: Label text color
-    //         fractionDigits: 0  // Optional: Numerical precision. 0=round off.
-    //     },
-    //     // staticZones: [
-    //     //     {strokeStyle: "#F03E3E", min: 100, max: 130}, // Red from 100 to 130
-    //     //     {strokeStyle: "#FFDD00", min: 130, max: 150}, // Yellow
-    //     //     {strokeStyle: "#30B32D", min: 150, max: 220}, // Green
-    //     //     {strokeStyle: "#FFDD00", min: 220, max: 260}, // Yellow
-    //     //     {strokeStyle: "#F03E3E", min: 260, max: 300}  // Red
-    //     // ],
-        
-    // };
-    // const c = document.getElementById( "idMiningBlocksPerSecond" ); // your canvas element
-    // if( g_gaugeBlocksPerSecond == null ) {
-    //     g_gaugeBlocksPerSecond = new Gauge( c ).setOptions( opts ); // create sexy gauge!
-    //     c.width  = 300;
-    //     c.height = 200;
-    //     g_gaugeBlocksPerSecond.minValue = 0;
-    //     g_gaugeBlocksPerSecond.maxValue = 300;
-    //     g_gaugeBlocksPerSecond.animationSpeed = 69; // set animation speed (32 is default value)
-    //     g_gaugeBlocksPerSecond.set( 175 ); // set actual value
-    // }
-
     $( "div#idMiningBlocksPerSecond" ).html( joStats.blocks.blocksPerSecond.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerBlock" ).html( joStats.blocks.transactionsPerBlock.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerSecond" ).html( joStats.blocks.transactionsPerSecond.toFixed( 2 ) );
 
+    if( ! g_gaugeMiningBlocksPerSecond )
+        g_gaugeMiningBlocksPerSecond = find_gauge_by_element_id( "idGaugeMiningBlocksPerSecond" );
+    if( ! g_gaugeMiningTransactionsPerBlock )
+        g_gaugeMiningTransactionsPerBlock = find_gauge_by_element_id( "idGaugeMiningTransactionsPerBlock" );
+    if( ! g_gaugeMiningTransactionsPerSecond )
+        g_gaugeMiningTransactionsPerSecond = find_gauge_by_element_id( "idGaugeMiningTransactionsPerSecond" );
+
+    g_gaugeMiningBlocksPerSecond.value = joStats.blocks.blocksPerSecond;
+    g_gaugeMiningTransactionsPerBlock.value = joStats.blocks.transactionsPerBlock;
+    g_gaugeMiningTransactionsPerSecond.value = joStats.blocks.transactionsPerSecond;
+
+}
+
+function find_gauge_by_element_id( element_id ) {
+    const arrGauges = document.gauges;
+    for ( const gauge of arrGauges ) {
+        if( gauge
+            && "canvas" in gauge
+            && gauge.canvas
+            && "element" in gauge.canvas
+            && gauge.canvas.element
+            && "id" in gauge.canvas.element
+            && gauge.canvas.element.id == element_id
+            )
+            return gauge;
+    }
+    return null;
 }
 
 const g_mapUnDdosWS = {};

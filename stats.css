@@ -734,21 +734,30 @@ span.text-rainbow5 { color: #34bbe6; }
 span.text-rainbow6 { color: #4355db; }
 span.text-rainbow7 { color: #d23be7; }
 
-/* canvas#idMiningBlocksPerSecond {
-    margin: 0;
-    padding: 0;
-    border: 0;
-} */
+table.mining {
+    width: 100%;
+}
 
-.miningCaption {
-    font-size: 14pt;
+td.mining {
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.mining {
+    font-size: 18pt;
     text-decoration: none;
     font-weight: bold;
     margin-top: 0.5em;
+    display: inline-block;
 }
 
-.miningValue {
+div.miningValue {
     font-size: 26pt;
     text-decoration: none;
     font-weight: normal;
+    display: inline-block;
+}
+
+canvas.mining {
+    display: inline-block;
 }
