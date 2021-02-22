@@ -744,17 +744,17 @@ td.mining {
 }
 
 div.mining {
-    font-size: 18pt;
+    font-size: 16pt;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: normal;
     margin-top: 0.5em;
     display: inline-block;
 }
 
 div.miningValue {
-    font-size: 26pt;
+    font-size: 50pt;
     text-decoration: none;
-    font-weight: normal;
+    font-weight: bold;
     display: inline-block;
 }
 
