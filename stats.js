@@ -618,9 +618,15 @@ function new_mining_chart( element_id, strLabel ) {
             labels: create_mining_chart_labels_array(), // ["January", "February", "March", "April", "May", "June", "July"],
             datasets: [{
                 label: strLabel,
-                backgroundColor: "#808080",
-                borderColor: "808080",
-                fill: false,
+                backgroundColor: "#F0F5FFA0",
+                borderColor: "#2080FF",
+                borderWidth: 2,
+                fill: true,
+                // steppedLine: "middle",
+                cubicInterpolationMode: "monotone",
+                pointBackgroundColor: "#2080FF",
+                pointBorderColor: "#2080FF",
+                pointBorderWidth: 0,
                 data: [] // [0, 10, 5, 2, 20, 30, 45]
             }]
         },
