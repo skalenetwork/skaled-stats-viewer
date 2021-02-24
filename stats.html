@@ -129,14 +129,18 @@
                 <tr class="performance">
                     <td class="performance">
                         <p class="performance">CPU load, percent</p>
+                        <p class="systemLoadValue" id="idCpuLoadValue">0</p>
                         <p class="performance">
-                            <div class="performance" id="cpu_load"> </div>
+                            <!-- <div class="performance" id="cpu_load"> </div> -->
+                            <canvas id="idCpuLoadChart" class="systemLoadChart"></canvas>
                         </p>
                     </td>
                     <td class="performance">
                         <p class="performance">Memory usage, percent</p>
+                        <p class="systemLoadValue" id="idMemUsageValue">0</p>
                         <p class="performance">
-                            <div class="performance" id="mem_usage"> </div>
+                            <!-- <div class="performance" id="mem_usage"> </div> -->
+                            <canvas id="idMemUsageChart" class="systemLoadChart"></canvas>
                         </p>
                     </td>
                 </tr>

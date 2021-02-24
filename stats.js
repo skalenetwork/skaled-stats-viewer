@@ -1268,7 +1268,42 @@ function fn_periodic_refresher() {
         }, nUpdateIntervalMS );
 }
 
+function new_system_load_chart( element_id, strLabel ) {
+    const ctx = document.getElementById( element_id ).getContext( "2d" );
+    const chart = new Chart( ctx, {
+        type: "line",
+        data: {
+            labels: create_system_load_chart_labels_array(), // ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: strLabel,
+                backgroundColor: "#F0FFF5A0",
+                borderColor: "#208080",
+                borderWidth: 2,
+                fill: true,
+                // steppedLine: "middle",
+                cubicInterpolationMode: "monotone",
+                pointBackgroundColor: "#208080",
+                pointBorderColor: "#208080",
+                pointBorderWidth: 0,
+                data: [] // [0, 10, 5, 2, 20, 30, 45]
+            }]
+        },
+        options: {
+            responsive: false
+        }
+    });
+    return chart;
+}
+
+function create_system_load_chart_labels_array() {
+    const arr = [];
+    for( let i = 0; i < g_nStatsDepth; ++ i )
+        arr.push( " " );
+    return arr;
+}
+
 let g_arr_server_cpu_load_stats_history = [];
+let g_chartCpuLoad = null;
 
 function populate_cpu_load_stats( cpu_load ) {
     try {
@@ -1286,6 +1321,7 @@ function populate_cpu_load_stats( cpu_load ) {
         }
         while( arr.length < g_nStatsDepth )
             arr.splice(0, 0, 0 ); // inset 0 at beginning
+        /*
         // https://omnipotent.net/jquery.sparkline/#s-docs
         let jqSparkline = $( "#cpu_load" );
         let clrSpot = "black";
@@ -1312,14 +1348,21 @@ function populate_cpu_load_stats( cpu_load ) {
                     "normalRangeMax": 100
                 } );
         };
-        //fn();
         setTimeout( fn, 0 );
+        */
+        let val = ( arr.length > 0 ) ? arr[ arr.length - 1 ] : 0;
+        $( "#idCpuLoadValue" ).html( "" + val.toFixed(1) );
+        if( g_chartCpuLoad == null )
+            g_chartCpuLoad = new_system_load_chart( "idCpuLoadChart", "CPU Load" );
+        g_chartCpuLoad.data.datasets[0].data = arr;
+        g_chartCpuLoad.update( 0 );
     } catch ( err ) {
         console.log( err );
     }
 }
 
 let g_arr_server_mem_usage_stats_history = [];
+let g_chartMemUsage = null;
 
 function populate_mem_usage_stats( mem_usage ) {
     try {
@@ -1337,6 +1380,7 @@ function populate_mem_usage_stats( mem_usage ) {
         }
         while( arr.length < g_nStatsDepth )
             arr.splice(0, 0, 0 ); // inset 0 at beginning
+        /*
         // https://omnipotent.net/jquery.sparkline/#s-docs
         let jqSparkline = $( "#mem_usage" );
         let clrSpot = "black";
@@ -1363,8 +1407,14 @@ function populate_mem_usage_stats( mem_usage ) {
                     "normalRangeMax": 100
                 } );
         };
-        //fn();
         setTimeout( fn, 0 );
+        */
+        let val = ( arr.length > 0 ) ? arr[ arr.length - 1 ] : 0;
+        $( "#idMemUsageValue" ).html( "" + val.toFixed(1) );
+        if( g_chartMemUsage == null )
+            g_chartMemUsage = new_system_load_chart( "idMemUsageChart", "Memory Usage" );
+        g_chartMemUsage.data.datasets[0].data = arr;
+        g_chartMemUsage.update( 0 );
     } catch ( err ) {
         console.log( err );
     }

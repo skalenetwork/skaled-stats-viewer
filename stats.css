@@ -327,7 +327,7 @@ p.performance {
     margin: 0;
     padding-top: 5px;
     text-align: center;
-    font-size: 12px;
+    font-size: 24pt;
     font-weight: bold;
     text-align: center;
 }
@@ -767,3 +767,14 @@ canvas.miningChart {
     width: 300pt;
     margin-left: 20pt;
 }
+
+canvas.systemLoadChart {
+    display: inline-block;
+    width: 700pt;
+}
+.systemLoadValue {
+    font-size: 50pt;
+    text-decoration: none;
+    font-weight: bold;
+}
+
