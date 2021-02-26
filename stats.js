@@ -287,6 +287,9 @@ async function async_document_ready_handler() {
         nUpdateIntervalMS = 500;
     $( "#idUpdateInterval" ).val( nUpdateIntervalMS );
 
+    const isShowMoreMiningGauges = store.get( "showMoreMiningGauges" ) ? true : false;
+    show_more_mining_gauges( isShowMoreMiningGauges );
+    $( "#idShowMoreMiningGauges" ).prop( 'checked', isShowMoreMiningGauges );
     //
     await do_connect( get_web3_url_string(), true );
 }
@@ -547,28 +550,43 @@ function helper_unddos_rpc_page_content( idxPage, joStats ) {
         delete g_mapUnDdosRPC[ strOriginName ];
 }
 
+function show_more_mining_gauges( isShow ) {
+    if( isShow )
+        $( "tr.mining_more_row" ).removeClass( "mining_hidden" );
+    else
+        $( "tr.mining_more_row" ).addClass( "mining_hidden" );
+    store.set( "showMoreMiningGauges", isShow ? true : false );
+}
+
 let g_gaugeMiningBlocksPerSecond = null;
+let g_gaugeMiningBlockTime = null;
 let g_gaugeMiningTransactionsPerBlock = null;
 let g_gaugeMiningTransactionsPerSecond = null;
 let g_gaugeMiningPendingTxPerSecond = null;
 let g_chartMiningBlocksPerSecond = null;
+let g_chartMiningBlockTime = null;
 let g_chartMiningTransactionsPerBlock = null;
 let g_chartMiningTransactionsPerSecond = null;
 let g_chartMiningPendingTxPerSecond = null;
 const g_nMaxMiningChartHistoryLength = 30;
 const g_arrMiningHistoryBlocksPerSecond = [];
+let g_arrMiningHistoryBlockTime = [];
 const g_arrMiningHistoryTransactionsPerBlock = [];
 const g_arrMiningHistoryTransactionsPerSecond = [];
 const g_arrMiningHistoryPendingTxPerSecond = [];
 
 function helper_mining_page_content( idxPage, joStats ) {
+    const nBlockTime = ( joStats.blocks.blocksPerSecond > 0 ) ? ( 1.0 / joStats.blocks.blocksPerSecond ) : 0.0;
     $( "div#idMiningBlocksPerSecond" ).html( joStats.blocks.blocksPerSecond.toFixed( 2 ) );
+    $( "div#idMiningBlockTime" ).html( nBlockTime.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerBlock" ).html( joStats.blocks.transactionsPerBlock.toFixed( 2 ) );
     $( "div#idMiningTransactionsPerSecond" ).html( joStats.blocks.transactionsPerSecond.toFixed( 2 ) );
     $( "div#idMiningPendingTxPerSecond" ).html( joStats.blocks.pendingTxPerSecond.toFixed( 2 ) );
 
     if( ! g_gaugeMiningBlocksPerSecond )
         g_gaugeMiningBlocksPerSecond = find_gauge_by_element_id( "idGaugeMiningBlocksPerSecond" );
+    if( ! g_gaugeMiningBlockTime )
+        g_gaugeMiningBlockTime = find_gauge_by_element_id( "idGaugeMiningBlockTime" );
     if( ! g_gaugeMiningTransactionsPerBlock )
         g_gaugeMiningTransactionsPerBlock = find_gauge_by_element_id( "idGaugeMiningTransactionsPerBlock" );
     if( ! g_gaugeMiningTransactionsPerSecond )
@@ -577,30 +595,45 @@ function helper_mining_page_content( idxPage, joStats ) {
         g_gaugeMiningPendingTxPerSecond = find_gauge_by_element_id( "idGaugeMiningPendingTxPerSecond" );
 
     g_gaugeMiningBlocksPerSecond.value = joStats.blocks.blocksPerSecond;
+    g_gaugeMiningBlockTime.value = nBlockTime;
     g_gaugeMiningTransactionsPerBlock.value = joStats.blocks.transactionsPerBlock;
     g_gaugeMiningTransactionsPerSecond.value = joStats.blocks.transactionsPerSecond;
     g_gaugeMiningPendingTxPerSecond.value = joStats.blocks.pendingTxPerSecond;
 
     if( g_chartMiningBlocksPerSecond == null )
-        g_chartMiningBlocksPerSecond = new_mining_chart( "idChartMiningBlocksPerSecond", "Blocks per second" );
+        g_chartMiningBlocksPerSecond = new_mining_chart( "idChartMiningBlocksPerSecond", "Blocks per second", 1 );
+    if( g_chartMiningBlockTime == null )
+        g_chartMiningBlockTime = new_mining_chart( "idChartMiningBlockTime", "Block time", 0.2 );
     if( g_chartMiningTransactionsPerBlock == null )
-        g_chartMiningTransactionsPerBlock = new_mining_chart( "idChartMiningTransactionsPerBlock", "Transactions per block" );
+        g_chartMiningTransactionsPerBlock = new_mining_chart( "idChartMiningTransactionsPerBlock", "Transactions per block", 100 );
     if( g_chartMiningTransactionsPerSecond == null )
-        g_chartMiningTransactionsPerSecond = new_mining_chart( "idChartMiningTransactionsPerSecond", "Transactions per second" );
+        g_chartMiningTransactionsPerSecond = new_mining_chart( "idChartMiningTransactionsPerSecond", "Transactions per second", 100 );
     if( g_chartMiningPendingTxPerSecond == null )
-        g_chartMiningPendingTxPerSecond = new_mining_chart( "idChartMiningPendingTxPerSecond", "Pending TX per second" );
+        g_chartMiningPendingTxPerSecond = new_mining_chart( "idChartMiningPendingTxPerSecond", "Pending TX per second", 100 );
     append_to_mining_history_array( g_arrMiningHistoryBlocksPerSecond, joStats.blocks.blocksPerSecond );
+    g_arrMiningHistoryBlockTime = create_mining_block_time_array( g_arrMiningHistoryBlocksPerSecond );
     append_to_mining_history_array( g_arrMiningHistoryTransactionsPerBlock, joStats.blocks.transactionsPerBlock );
     append_to_mining_history_array( g_arrMiningHistoryTransactionsPerSecond, joStats.blocks.transactionsPerSecond );
     append_to_mining_history_array( g_arrMiningHistoryPendingTxPerSecond, joStats.blocks.pendingTxPerSecond );
     g_chartMiningBlocksPerSecond.data.datasets[0].data = g_arrMiningHistoryBlocksPerSecond;
     g_chartMiningBlocksPerSecond.update( 0 );
+    g_chartMiningBlockTime.data.datasets[0].data = g_arrMiningHistoryBlockTime;
+    g_chartMiningBlockTime.update( 0 );
     g_chartMiningTransactionsPerBlock.data.datasets[0].data = g_arrMiningHistoryTransactionsPerBlock;
     g_chartMiningTransactionsPerBlock.update( 0 );
     g_chartMiningTransactionsPerSecond.data.datasets[0].data = g_arrMiningHistoryTransactionsPerSecond;
     g_chartMiningTransactionsPerSecond.update( 0 );
     g_chartMiningPendingTxPerSecond.data.datasets[0].data = g_arrMiningHistoryPendingTxPerSecond;
     g_chartMiningPendingTxPerSecond.update( 0 );
+}
+
+function create_mining_block_time_array( arrSrc ) {
+    const arrDst = [];
+    for( const val of arrSrc ) {
+        const nBlockTime = ( val > 0 ) ? ( 1.0 / val ) : 0.0;
+        arrDst.push( nBlockTime );
+    }
+    return arrDst;
 }
 
 function append_to_mining_history_array( arr, val ) {
@@ -610,7 +643,7 @@ function append_to_mining_history_array( arr, val ) {
     return arr;
 }
 
-function new_mining_chart( element_id, strLabel ) {
+function new_mining_chart( element_id, strLabel, suggestedMax ) {
     const ctx = document.getElementById( element_id ).getContext( "2d" );
     const chart = new Chart( ctx, {
         type: "line",
@@ -631,7 +664,16 @@ function new_mining_chart( element_id, strLabel ) {
             }]
         },
         options: {
-            responsive: false
+            responsive: false,
+            // beginAtZero: true
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 0 + suggestedMax
+                    }
+                }]
+            }
         }
     });
     return chart;
@@ -1289,7 +1331,15 @@ function new_system_load_chart( element_id, strLabel ) {
             }]
         },
         options: {
-            responsive: false
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 50,
+                        suggestedMax: 100
+                    }
+                }]
+            }
         }
     });
     return chart;

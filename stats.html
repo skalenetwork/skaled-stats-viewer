@@ -16,7 +16,8 @@
     <link href="jsgrid-1.5.3/css/theme.css" type="text/css" rel="stylesheet" -->
     <!-- see http://js-grid.com/demos/ -->
 
-    <link rel="stylesheet" href="webui-popover-master/dist/jquery.webui-popover.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="webui-popover-master/dist/jquery.webui-popover.min.css" type="text/css"
+        rel="stylesheet">
     <script src="webui-popover-master/dist/jquery.webui-popover.min.js"></script>
     <!-- see https://github.com/sandywalker/webui-popover and http://sandywalker.github.io/webui-popover/demo/# -->
 
@@ -45,7 +46,7 @@
     see https://cdnjs.com/libraries/Chart.js
     -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    
+
     <link rel="stylesheet" href="stats.css" type="text/css" rel="stylesheet">
     <script src="stats.js"></script>
 
@@ -56,23 +57,35 @@
     <table class="top_table">
         <tbody class="top_table">
             <tr class="top_table">
-                <td class="top_table" style="width: 12em;">
-                    <h1>&nbsp;SKALE - Stats</h1>
+                <td class="top_table" style="width: 15em;">
+                    <!-- <h1>&nbsp;SKALE - Stats</h1> -->
+                    <h1>
+                        &nbsp;
+                        <img src="skale-logo-small-black.png" width="100pt" height="30pt"
+                            style="display: inline-block; position: relative;top: -2pt;" />
+                        <span style="position: relative;top: -8pt; font-size: 1.1em; height: 30pt;"> stats </span>
+                    </h1>
                 </td>
                 <td class="top_table" style="width: 22em;">
                     <form onsubmit="event.preventDefault(); return true;">
-                        <input id="idServerInput" type="text" placeholder="Server URL" class="clearable" autocomplete="off"></input>
-                        <button id="idServerButton" class="blue" type="submit" onclick="javascript: do_connect( '' + $('#idServerInput').val() );">&nbsp;&nbsp;Connect&nbsp;&nbsp;</button>
+                        <input id="idServerInput" type="text" placeholder="Server URL" class="clearable"
+                            autocomplete="off"></input>
+                        <button id="idServerButton" class="blue" type="submit"
+                            onclick="javascript: do_connect( '' + $('#idServerInput').val() );">&nbsp;&nbsp;Connect&nbsp;&nbsp;</button>
                     </form>
                     <div id="idServerHistoryPopover" class="webui-popover-content white">
                         <h4 class="white">
                             <nobr>Known Servers:</nobr>
                         </h4>
                         <br />
-                        <nobr><a class="white" href="javascript: do_connect('http://127.0.0.1:15000');">Local S-Chain<span class="helper-comment">(skaled, HTTP)</span></a></nobr><br />
-                        <nobr><a class="white" href="javascript: do_connect('https://127.0.0.1:15010');">Local S-Chain<span class="helper-comment">(skaled, HTTPS)</span></a></nobr><br />
-                        <nobr><a class="white" href="javascript: do_connect('ws://127.0.0.1:15020');">Local S-Chain<span class="helper-comment">(skaled, WS)</span></a></nobr><br />
-                        <nobr><a class="white" href="javascript: do_connect('wss://127.0.0.1:15030');">Local S-Chain<span class="helper-comment">(skaled, WSS)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('http://127.0.0.1:15000');">Local
+                                S-Chain<span class="helper-comment">(skaled, HTTP)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('https://127.0.0.1:15010');">Local
+                                S-Chain<span class="helper-comment">(skaled, HTTPS)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('ws://127.0.0.1:15020');">Local S-Chain<span
+                                    class="helper-comment">(skaled, WS)</span></a></nobr><br />
+                        <nobr><a class="white" href="javascript: do_connect('wss://127.0.0.1:15030');">Local
+                                S-Chain<span class="helper-comment">(skaled, WSS)</span></a></nobr><br />
                         <div id="idServerRecants" class="white">
                         </div>
                     </div>
@@ -117,7 +130,8 @@
                     </form>
                 </td>
                 <td class="top_table">
-                    Latest block#: <span id="idLatestBlockNumber">N/A</span> &nbsp;&nbsp;&nbsp;&nbsp; <span id="idBlocksListExternalPager"></span>
+                    Latest block#: <span id="idLatestBlockNumber">N/A</span> &nbsp;&nbsp;&nbsp;&nbsp; <span
+                        id="idBlocksListExternalPager"></span>
                 </td>
             </tr>
         </tbody>
@@ -286,22 +300,31 @@
         <div id="idContentPage10">
             <!-- Performance Timeline Tracker -->
             <div id="idPerformanceRecordingToolbar" style="margin: 0pt 0pt 3pt 0pt; display: none;">
-                <button id="idPerformanceRecordingStartStop" class="green" onclick="javascript: g_performanceTimeline.start_stop_recording();">&nbsp;&nbsp;Start Recording&nbsp;&nbsp;</button>
-                <span id="idPerformanceRecordingProgressLabel" style="display: none; color: red; background-color: transparent;">Recording...</span>
+                <button id="idPerformanceRecordingStartStop" class="green"
+                    onclick="javascript: g_performanceTimeline.start_stop_recording();">&nbsp;&nbsp;Start
+                    Recording&nbsp;&nbsp;</button>
+                <span id="idPerformanceRecordingProgressLabel"
+                    style="display: none; color: red; background-color: transparent;">Recording...</span>
                 <span id="idPerformanceZoomControls">
                     Zoom:
-                    <button id="idPerformanceZoomAll"   class="yellow" onclick="javascript: g_performanceTimeline.zoom_all();"  >&nbsp;&nbsp;All&nbsp;&nbsp;</button>
-                    <button id="idPerformanceZoomPlus"  class="yellow" onclick="javascript: g_performanceTimeline.zoom_plus();" >&nbsp;&nbsp; In &nbsp;&nbsp;</button>
-                    <button id="idPerformanceZoomMinus" class="yellow" onclick="javascript: g_performanceTimeline.zoom_minus();">&nbsp;&nbsp;Out&nbsp;&nbsp;</button>
+                    <button id="idPerformanceZoomAll" class="yellow"
+                        onclick="javascript: g_performanceTimeline.zoom_all();">&nbsp;&nbsp;All&nbsp;&nbsp;</button>
+                    <button id="idPerformanceZoomPlus" class="yellow"
+                        onclick="javascript: g_performanceTimeline.zoom_plus();">&nbsp;&nbsp; In &nbsp;&nbsp;</button>
+                    <button id="idPerformanceZoomMinus" class="yellow"
+                        onclick="javascript: g_performanceTimeline.zoom_minus();">&nbsp;&nbsp;Out&nbsp;&nbsp;</button>
                 </span>
                 <span id="idPerformanceMoveControls">
                     Move:
-                    <button id="idPerformanceMoveLeft"  class="sand"   onclick="javascript: g_performanceTimeline.move_left();" >&nbsp;&nbsp;&lt;&lt;&lt;&nbsp;&nbsp;</button>
-                    <button id="idPerformanceMoveRight" class="sand"   onclick="javascript: g_performanceTimeline.move_right();">&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;&nbsp;</button>
+                    <button id="idPerformanceMoveLeft" class="sand"
+                        onclick="javascript: g_performanceTimeline.move_left();">&nbsp;&nbsp;&lt;&lt;&lt;&nbsp;&nbsp;</button>
+                    <button id="idPerformanceMoveRight" class="sand"
+                        onclick="javascript: g_performanceTimeline.move_right();">&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;&nbsp;</button>
                 </span>
                 <span id="idPerformanceViewOptionsControls">
                     Options:
-                    <input type="checkbox" name="idPerformanceItemStacking" id="idPerformanceItemStacking" onclick="g_performanceTimeline.handleStackingClicked( this );"></input>
+                    <input type="checkbox" name="idPerformanceItemStacking" id="idPerformanceItemStacking"
+                        onclick="g_performanceTimeline.handleStackingClicked( this );"></input>
                     <label for="idPerformanceItemStacking">Stacking</label>
                 </span>
             </div>
@@ -342,24 +365,31 @@
         <div id="idContentPage14">
             <!-- Mining stats -->
             <table class="mining">
-                <thead class="mining">
-                    <th class="mining">
-                        <div class="mining">Blocks per second</div>
-                    </th>
-                    <th class="mining">
-                        <div class="mining">Transactions per block</div>
-                    </th>
-                    <th class="mining">
-                        <div class="mining">Transactions per second</div>
-                    </th>
-                    <th class="mining">
-                        <div class="mining">Pending TX per second</div>
-                    </th>
-                </thead>
                 <tbody class="mining">
                     <tr class="mining">
                         <td class="mining">
+                            <div class="mining">Blocks per second</div>
+                            <div class="mining_notice">(higher is better)</div>
+                        </td>
+                        <td class="mining">
+                            <div class="mining">Block time</div>
+                            <div class="mining_notice">(lower is better)</div>
+                        </td>
+                        <td class="mining">
+                            <div class="mining">Transactions per block</div>
+                            <div class="mining_notice">(higher is better)</div>
+                        </td>
+                        <td class="mining">
+                            <div class="mining">Transactions per second</div>
+                            <div class="mining_notice">(higher is better)</div>
+                        </td>
+                    </tr>
+                    <tr class="mining">
+                        <td class="mining">
                             <div id="idMiningBlocksPerSecond" class="miningValue"> </div>
+                        </td>
+                        <td class="mining">
+                            <div id="idMiningBlockTime" class="miningValue"> </div>
                         </td>
                         <td class="mining">
                             <div id="idMiningTransactionsPerBlock" class="miningValue"> </div>
@@ -367,214 +397,85 @@
                         <td class="mining">
                             <div id="idMiningTransactionsPerSecond" class="miningValue"> </div>
                         </td class="mining">
-                        <td class="mining">
-                            <div id="idMiningPendingTxPerSecond" class="miningValue"> </div>
-                        </td class="mining">
                     </tr>
                     <tr class="mining">
                         <td class="mining">
-                            <canvas id="idGaugeMiningBlocksPerSecond" class="miningGauge"
-                            data-type="radial-gauge"
-                            data-major-ticks="0, 5, 10, 15, 20"
-                            data-type="radial-gauge"
-                            data-title="Blocks"
-                            data-units="per second"
-                            data-width="400"
-                            data-height="400"
-                            data-value-int="0"
-                            data-value-dec="0"
-                            data-min-value="0"
-                            data-max-value="20"
-                            data-highlights="false"
-                            data-value-box="0"
-                            data-color-plate="transparent"
-                            data-color-major-ticks="#404040"
-                            data-color-minor-ticks="#C0C0C0"
-                            data-color-title="#000000"
-                            data-color-units="#000000"
-                            data-color-numbers="#000000"
-                            data-color-needle="#2080FF"
-                            data-color-needle-start="#2080FF"
-                            data-color-needle-end="#2080FF"
-                            data-stroke-ticks="false"
-                            data-animation-rule="linear"
-                            data-color-needle-circle-outer="#ccc"
-                            data-needle-circle-size="16"
-                            data-needle-circle-outer="true"
-                            data-needle-type="line"
-                            data-needle-width="2"
-                            data-needle-start="5"
-                            data-needle-end="87"
-                    
-                            data-bar-width="5"
-                            data-bar-shadow="1"
-                            data-color-bar-progress="#2080FF"
-                            data-color-bar="#F0F5FF"
-                            data-border-shadow-width="0"
-                            data-border-inner-width="0"
-                            data-border-outer-width="0"
-                            data-border-middle-width="0"
-                            data-highlights="false"
-                            data-value-box-stroke="0"
-                            data-color-value-box-shadow="0"
-                            data-value-box-border-radius="0"
-                            data-value-text-shadow="0"
-                            data-color-value-box-background="transparent"
-                            data-needle="true"
-                            ></canvas>
+                            <canvas id="idGaugeMiningBlocksPerSecond" class="miningGauge" data-type="radial-gauge"
+                                data-major-ticks="0, 5, 10, 15, 20" data-type="radial-gauge" data-title="Blocks"
+                                data-units="per second" data-width="400" data-height="400" data-value-int="0"
+                                data-value-dec="0" data-min-value="0" data-max-value="20" data-highlights="false"
+                                data-value-box="0" data-color-plate="transparent" data-color-major-ticks="#404040"
+                                data-color-minor-ticks="#C0C0C0" data-color-title="#000000" data-color-units="#000000"
+                                data-color-numbers="#000000" data-color-needle="#2080FF"
+                                data-color-needle-start="#2080FF" data-color-needle-end="#2080FF"
+                                data-stroke-ticks="false" data-animation-rule="linear"
+                                data-color-needle-circle-outer="#ccc" data-needle-circle-size="16"
+                                data-needle-circle-outer="true" data-needle-type="line" data-needle-width="2"
+                                data-needle-start="5" data-needle-end="87" data-bar-width="5" data-bar-shadow="1"
+                                data-color-bar-progress="#2080FF" data-color-bar="#F0F5FF" data-border-shadow-width="0"
+                                data-border-inner-width="0" data-border-outer-width="0" data-border-middle-width="0"
+                                data-highlights="false" data-value-box-stroke="0" data-color-value-box-shadow="0"
+                                data-value-box-border-radius="0" data-value-text-shadow="0"
+                                data-color-value-box-background="transparent" data-needle="true"></canvas>
                         </td>
                         <td class="mining">
-                            <canvas id="idGaugeMiningTransactionsPerBlock" class="miningGauge"
-                            data-type="radial-gauge"
-                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
-                            data-type="radial-gauge"
-                            data-title="Transactions"
-                            data-units="per block"
-                            data-width="400"
-                            data-height="400"
-                            data-value-int="0"
-                            data-value-dec="0"
-                            data-min-value="0"
-                            data-max-value="1000"
-                            data-highlights="false"
-                            data-value-box="0"
-                            data-color-plate="transparent"
-                            data-color-major-ticks="#202000"
-                            data-color-minor-ticks="#C0C0C0"
-                            data-color-title="#000000"
-                            data-color-units="#000000"
-                            data-color-numbers="#000000"
-                            data-color-needle="#2080FF"
-                            data-color-needle-start="#2080FF"
-                            data-color-needle-end="#2080FF"
-                            data-stroke-ticks="false"
-                            data-animation-rule="linear"
-                            data-color-needle-circle-outer="#ccc"
-                            data-needle-circle-size="16"
-                            data-needle-circle-outer="true"
-                            data-needle-type="line"
-                            data-needle-width="2"
-                            data-needle-start="5"
-                            data-needle-end="87"
-
-                            data-bar-width="5"
-                            data-bar-shadow="1"
-                            data-color-bar-progress="#2080FF"
-                            data-color-bar="#F0F5FF"
-                            data-border-shadow-width="0"
-                            data-border-inner-width="0"
-                            data-border-outer-width="0"
-                            data-border-middle-width="0"
-                            data-highlights="false"
-                            data-value-box-stroke="0"
-                            data-color-value-box-shadow="0"
-                            data-value-box-border-radius="0"
-                            data-value-text-shadow="0"
-                            data-color-value-box-background="transparent"
-                            data-needle="true"
-                            ></canvas>
+                            <canvas id="idGaugeMiningBlockTime" class="miningGauge" data-type="radial-gauge"
+                                data-major-ticks="0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10" data-type="radial-gauge"
+                                data-title="Block time" data-units="seconds" data-width="400" data-height="400"
+                                data-value-int="0" data-value-dec="0" data-min-value="0" data-max-value="10"
+                                data-highlights="false" data-value-box="0" data-color-plate="transparent"
+                                data-color-major-ticks="#404040" data-color-minor-ticks="#C0C0C0"
+                                data-color-title="#000000" data-color-units="#000000" data-color-numbers="#000000"
+                                data-color-needle="#2080FF" data-color-needle-start="#2080FF"
+                                data-color-needle-end="#2080FF" data-stroke-ticks="false" data-animation-rule="linear"
+                                data-color-needle-circle-outer="#ccc" data-needle-circle-size="16"
+                                data-needle-circle-outer="true" data-needle-type="line" data-needle-width="2"
+                                data-needle-start="5" data-needle-end="87" data-bar-width="5" data-bar-shadow="1"
+                                data-color-bar-progress="#2080FF" data-color-bar="#F0F5FF" data-border-shadow-width="0"
+                                data-border-inner-width="0" data-border-outer-width="0" data-border-middle-width="0"
+                                data-highlights="false" data-value-box-stroke="0" data-color-value-box-shadow="0"
+                                data-value-box-border-radius="0" data-value-text-shadow="0"
+                                data-color-value-box-background="transparent" data-needle="true"></canvas>
                         </td>
                         <td class="mining">
-                            <canvas id="idGaugeMiningTransactionsPerSecond" class="miningGauge"
-                            data-type="radial-gauge"
-                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
-                            data-type="radial-gauge"
-                            data-title="Transactions"
-                            data-units="per second"
-                            data-width="400"
-                            data-height="400"
-                            data-value-int="0"
-                            data-value-dec="0"
-                            data-min-value="0"
-                            data-max-value="1000"
-                            data-highlights="false"
-                            data-value-box="0"
-                            data-color-plate="transparent"
-                            data-color-major-ticks="#404040"
-                            data-color-minor-ticks="#C0C0C0"
-                            data-color-title="#000000"
-                            data-color-units="#000000"
-                            data-color-numbers="#000000"
-                            data-color-needle="#2080FF"
-                            data-color-needle-start="#2080FF"
-                            data-color-needle-end="#2080FF"
-                            data-stroke-ticks="false"
-                            data-animation-rule="linear"
-                            data-color-needle-circle-outer="#ccc"
-                            data-needle-circle-size="16"
-                            data-needle-circle-outer="true"
-                            data-needle-type="line"
-                            data-needle-width="2"
-                            data-needle-start="5"
-                            data-needle-end="87"
-              
-                            data-bar-width="5"
-                            data-bar-shadow="1"
-                            data-color-bar-progress="#2080FF"
-                            data-color-bar="#F0F5FF"
-                            data-border-shadow-width="0"
-                            data-border-inner-width="0"
-                            data-border-outer-width="0"
-                            data-border-middle-width="0"
-                            data-highlights="false"
-                            data-value-box-stroke="0"
-                            data-color-value-box-shadow="0"
-                            data-value-box-border-radius="0"
-                            data-value-text-shadow="0"
-                            data-color-value-box-background="transparent"
-                            data-needle="true"
-                            ></canvas>
+                            <canvas id="idGaugeMiningTransactionsPerBlock" class="miningGauge" data-type="radial-gauge"
+                                data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
+                                data-type="radial-gauge" data-title="Transactions" data-units="per block"
+                                data-width="400" data-height="400" data-value-int="0" data-value-dec="0"
+                                data-min-value="0" data-max-value="1000" data-highlights="false" data-value-box="0"
+                                data-color-plate="transparent" data-color-major-ticks="#202000"
+                                data-color-minor-ticks="#C0C0C0" data-color-title="#000000" data-color-units="#000000"
+                                data-color-numbers="#000000" data-color-needle="#2080FF"
+                                data-color-needle-start="#2080FF" data-color-needle-end="#2080FF"
+                                data-stroke-ticks="false" data-animation-rule="linear"
+                                data-color-needle-circle-outer="#ccc" data-needle-circle-size="16"
+                                data-needle-circle-outer="true" data-needle-type="line" data-needle-width="2"
+                                data-needle-start="5" data-needle-end="87" data-bar-width="5" data-bar-shadow="1"
+                                data-color-bar-progress="#2080FF" data-color-bar="#F0F5FF" data-border-shadow-width="0"
+                                data-border-inner-width="0" data-border-outer-width="0" data-border-middle-width="0"
+                                data-highlights="false" data-value-box-stroke="0" data-color-value-box-shadow="0"
+                                data-value-box-border-radius="0" data-value-text-shadow="0"
+                                data-color-value-box-background="transparent" data-needle="true"></canvas>
                         </td>
                         <td class="mining">
-                            <canvas id="idGaugeMiningPendingTxPerSecond" class="miningGauge"
-                            data-type="radial-gauge"
-                            data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
-                            data-type="radial-gauge"
-                            data-title="Pending TX"
-                            data-units="per second"
-                            data-width="400"
-                            data-height="400"
-                            data-value-int="0"
-                            data-value-dec="0"
-                            data-min-value="0"
-                            data-max-value="1000"
-                            data-highlights="false"
-                            data-value-box="0"
-                            data-color-plate="transparent"
-                            data-color-major-ticks="#404040"
-                            data-color-minor-ticks="#C0C0C0"
-                            data-color-title="#000000"
-                            data-color-units="#000000"
-                            data-color-numbers="#000000"
-                            data-color-needle="#2080FF"
-                            data-color-needle-start="#2080FF"
-                            data-color-needle-end="#2080FF"
-                            data-stroke-ticks="false"
-                            data-animation-rule="linear"
-                            data-color-needle-circle-outer="#ccc"
-                            data-needle-circle-size="16"
-                            data-needle-circle-outer="true"
-                            data-needle-type="line"
-                            data-needle-width="2"
-                            data-needle-start="5"
-                            data-needle-end="87"
-              
-                            data-bar-width="5"
-                            data-bar-shadow="1"
-                            data-color-bar-progress="#2080FF"
-                            data-color-bar="#F0F5FF"
-                            data-border-shadow-width="0"
-                            data-border-inner-width="0"
-                            data-border-outer-width="0"
-                            data-border-middle-width="0"
-                            data-highlights="false"
-                            data-value-box-stroke="0"
-                            data-color-value-box-shadow="0"
-                            data-value-box-border-radius="0"
-                            data-value-text-shadow="0"
-                            data-color-value-box-background="transparent"
-                            data-needle="true"
-                            ></canvas>
+                            <canvas id="idGaugeMiningTransactionsPerSecond" class="miningGauge" data-type="radial-gauge"
+                                data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
+                                data-type="radial-gauge" data-title="Transactions" data-units="per second"
+                                data-width="400" data-height="400" data-value-int="0" data-value-dec="0"
+                                data-min-value="0" data-max-value="1000" data-highlights="false" data-value-box="0"
+                                data-color-plate="transparent" data-color-major-ticks="#404040"
+                                data-color-minor-ticks="#C0C0C0" data-color-title="#000000" data-color-units="#000000"
+                                data-color-numbers="#000000" data-color-needle="#2080FF"
+                                data-color-needle-start="#2080FF" data-color-needle-end="#2080FF"
+                                data-stroke-ticks="false" data-animation-rule="linear"
+                                data-color-needle-circle-outer="#ccc" data-needle-circle-size="16"
+                                data-needle-circle-outer="true" data-needle-type="line" data-needle-width="2"
+                                data-needle-start="5" data-needle-end="87" data-bar-width="5" data-bar-shadow="1"
+                                data-color-bar-progress="#2080FF" data-color-bar="#F0F5FF" data-border-shadow-width="0"
+                                data-border-inner-width="0" data-border-outer-width="0" data-border-middle-width="0"
+                                data-highlights="false" data-value-box-stroke="0" data-color-value-box-shadow="0"
+                                data-value-box-border-radius="0" data-value-text-shadow="0"
+                                data-color-value-box-background="transparent" data-needle="true"></canvas>
                         </td>
                     </tr>
                     <tr class="mining">
@@ -582,22 +483,90 @@
                             <canvas id="idChartMiningBlocksPerSecond" class="miningChart"></canvas>
                         </td>
                         <td class="mining">
+                            <canvas id="idChartMiningBlockTime" class="miningChart"></canvas>
+                        </td>
+                        <td class="mining">
                             <canvas id="idChartMiningTransactionsPerBlock" class="miningChart"></canvas>
                         </td>
                         <td class="mining">
                             <canvas id="idChartMiningTransactionsPerSecond" class="miningChart"></canvas>
                         </td>
+                    </tr>
+                    <tr class="mining">
+                        <td class="mining" style="text-align: left; padding-left: 40pt;" colspan="4">
+                            <input type="checkbox" name="idShowMoreMiningGauges" id="idShowMoreMiningGauges"
+                                onclick="show_more_mining_gauges( this.checked );"></input>
+                            <label for="idPerformanceItemStacking">Show more</label>
+                        </td>
+                    </tr>
+                    <tr class="mining mining_more_row mining_hidden">
+                        <td class="mining">
+                            <div class="mining">Pending TX per second</div>
+                            <div class="mining_notice">(higher is better)</div>
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                    </tr>
+                    <tr class="mining mining_more_row mining_hidden">
+                        <td class="mining">
+                            <div id="idMiningPendingTxPerSecond" class="miningValue"> </div>
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                    </tr>
+                    <tr class="mining mining_more_row mining_hidden">
+                        <td class="mining">
+                            <canvas id="idGaugeMiningPendingTxPerSecond" class="miningGauge" data-type="radial-gauge"
+                                data-major-ticks="0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000"
+                                data-type="radial-gauge" data-title="Pending TX" data-units="per second"
+                                data-width="400" data-height="400" data-value-int="0" data-value-dec="0"
+                                data-min-value="0" data-max-value="1000" data-highlights="false" data-value-box="0"
+                                data-color-plate="transparent" data-color-major-ticks="#404040"
+                                data-color-minor-ticks="#C0C0C0" data-color-title="#000000" data-color-units="#000000"
+                                data-color-numbers="#000000" data-color-needle="#2080FF"
+                                data-color-needle-start="#2080FF" data-color-needle-end="#2080FF"
+                                data-stroke-ticks="false" data-animation-rule="linear"
+                                data-color-needle-circle-outer="#ccc" data-needle-circle-size="16"
+                                data-needle-circle-outer="true" data-needle-type="line" data-needle-width="2"
+                                data-needle-start="5" data-needle-end="87" data-bar-width="5" data-bar-shadow="1"
+                                data-color-bar-progress="#2080FF" data-color-bar="#F0F5FF" data-border-shadow-width="0"
+                                data-border-inner-width="0" data-border-outer-width="0" data-border-middle-width="0"
+                                data-highlights="false" data-value-box-stroke="0" data-color-value-box-shadow="0"
+                                data-value-box-border-radius="0" data-value-text-shadow="0"
+                                data-color-value-box-background="transparent" data-needle="true"></canvas>
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                    </tr>
+                    <tr class="mining mining_more_row mining_hidden">
                         <td class="mining">
                             <canvas id="idChartMiningPendingTxPerSecond" class="miningChart"></canvas>
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
+                        </td>
+                        <td class="mining">
                         </td>
                     </tr>
                 </tbody>
             </table>
-            
+
         </div>
     </div>
 
 </body>
 
 </html>
-

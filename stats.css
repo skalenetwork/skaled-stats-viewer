@@ -758,6 +758,13 @@ div.miningValue {
     display: inline-block;
 }
 
+div.mining_notice {
+    font-size: 11pt;
+    text-decoration: none;
+    font-weight: normal;
+    color: gray;
+}
+
 canvas.miningGauge {
     display: inline-block;
 }
@@ -778,3 +785,10 @@ canvas.systemLoadChart {
     font-weight: bold;
 }
 
+tr.mining_more_row {
+    display: table-row;
+}
+
+tr.mining_hidden {
+    display: none;
+}
