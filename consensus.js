@@ -342,9 +342,7 @@ async function do_refresh_data() {
     }, function ( joAnswer ) {
         const nTPS = parseInt( joAnswer.result );
         // console.log( "TPS is ", nTPS );
-        g_arrTPS.push( nTPS );
-        // while( g_arrTPS.length < g_nStatsDepth )
-        //     g_arrTPS.splice(0, 0, 0 ); // inset 0 at beginning
+        append_to_mining_history_array( g_arrTPS, nTPS );
         update_mining_ui_part( "MiningTransactionsPerSecond", g_arrTPS, 0 );
     } );
     g_connection.call( {
@@ -354,9 +352,7 @@ async function do_refresh_data() {
     }, function ( joAnswer ) {
         const nBlockSize = parseInt( joAnswer.result );
         // console.log( "Block size is ", nBlockSize );
-        g_arrBS.push( nBlockSize );
-        // while( g_arrBS.length < g_nStatsDepth )
-        //     g_arrBS.splice(0, 0, 0 ); // inset 0 at beginning
+        append_to_mining_history_array( g_arrBS, nBlockSize );
         update_mining_ui_part( "MiningBlockSize", g_arrBS, 0 );
     } );
     g_connection.call( {
@@ -366,9 +362,7 @@ async function do_refresh_data() {
     }, function ( joAnswer ) {
         const lfBlockTime = parseInt( joAnswer.result ) / 1000.0;
         // console.log( "Block time is ", lfBlockTime.toFixed( 2 ) );
-        g_arrBT.push( lfBlockTime );
-        // while( g_arrBT.length < g_nStatsDepth )
-        //     g_arrBT.splice(0, 0, 0 ); // inset 0 at beginning
+        append_to_mining_history_array( g_arrBT, lfBlockTime );
         update_mining_ui_part( "MiningBlockTime", g_arrBT, 2 );
     } );
 }
@@ -393,6 +387,8 @@ function append_to_mining_history_array( arr, val ) {
     arr.push( val );
     while( arr.length > g_nStatsDepth )
         arr.shift();
+    while( arr.length < g_nStatsDepth )
+    arr.splice(0, 0, 0 ); // inset 0 at beginning
     return arr;
 }
 
