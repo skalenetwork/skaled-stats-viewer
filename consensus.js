@@ -369,7 +369,7 @@ async function do_refresh_data() {
         g_arrBT.push( lfBlockTime );
         // while( g_arrBT.length < g_nStatsDepth )
         //     g_arrBT.splice(0, 0, 0 ); // inset 0 at beginning
-        update_mining_ui_part( "MiningBlockTime", g_arrBS, 2 );
+        update_mining_ui_part( "MiningBlockTime", g_arrBT, 2 );
     } );
 }
 
